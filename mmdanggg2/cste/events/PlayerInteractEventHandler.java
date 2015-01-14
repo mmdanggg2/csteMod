@@ -11,11 +11,11 @@ public class PlayerInteractEventHandler {
 	@SubscribeEvent
 	public void handleEvent(PlayerInteractEvent event) {
 		if (event.world.isRemote) {
-			if (CSTE.processor.getWand() != null && event.entityPlayer.getHeldItem() != null) {
-				if (event.entityPlayer.getCurrentEquippedItem().getItem() == CSTE.processor.getWand()) {
+			if (CSTE.processor.wand != null && event.entityPlayer.getHeldItem() != null) {
+				if (event.entityPlayer.getCurrentEquippedItem().getItem() == CSTE.processor.wand) {
 					if (event.action == event.action.RIGHT_CLICK_BLOCK) {
 						event.setCanceled(true);
-						CSTE.processor.getPos(1);
+						CSTE.processor.onBlockActivated(event.pos, event.entityPlayer);
 					}
 				}
 			}
