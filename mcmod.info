@@ -1,0 +1,20 @@
+[
+    {
+        "name": "CSTE", 
+        "parent": "", 
+        "url": "http://www.mmdanggg2.co.uk", 
+        "logoFile": "pack.png", 
+        "dependancies": [
+            "Forge"
+        ], 
+        "updateUrl": "", 
+        "credits": "Made by your friendly neighborhood mmdanggg2", 
+        "version": "0.0.0", 
+        "modid": "cste", 
+        "authors": [
+            "mmdanggg2"
+        ], 
+        "screenshots": [], 
+        "description": "Client Side Terrain Editor"
+    }
+]
