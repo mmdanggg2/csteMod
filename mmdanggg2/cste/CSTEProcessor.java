@@ -2,22 +2,31 @@ package mmdanggg2.cste;
 
 import java.util.ArrayList;
 
+import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 
 public class CSTEProcessor {
-	private static BlockPos[] positions = new BlockPos[2];
-	
+	private BlockPos[] positions = new BlockPos[2];
 	private int currPoint = 0;
+	private Item wand = null;
 	
-	public static void setPos(int index, BlockPos pos) {
+	public void setPos(int index, BlockPos pos) {
 		positions[index] = pos;
 	}
 	
-	public static BlockPos getPos(int index) {
+	public BlockPos getPos(int index) {
 		return positions[index];
 	}
+
+	public Item getWand() {
+		return wand;
+	}
+
+	public void setWand(Item wand) {
+		this.wand = wand;
+	}
 	
-	public static void clearPos() {
+	public void clearPos() {
 		for (int i=0; i < positions.length; i++) {
 			positions[i] = null;
 		}

@@ -32,7 +32,7 @@ public class CSTE {
 	@SidedProxy(clientSide = CSTEInfo.CLIENTPROXY, serverSide = CSTEInfo.COMMONPROXY)
 	public static CommonProxy proxy;
 	
-	public static Item wand = null;
+	public static CSTEProcessor processor;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -79,7 +79,10 @@ public class CSTE {
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		// Stub Method
+		if (event.getSide().isServer()) {
+			return;
+		}
+		this.processor = new CSTEProcessor();
 	}
 	
 	public static void updateConfig() {

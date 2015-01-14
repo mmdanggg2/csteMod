@@ -32,18 +32,19 @@ public class CommandSelectTool extends CommandBase {
 		CSTELogger.logDebug("Tool Command Recieved!!!");
 		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
-			if (player.getHeldItem() != null) {
+			if (args.length != 0 && args[0].equalsIgnoreCase("clear")) {
+				CSTELogger.logDebug("Clearing Wand");
+				CSTE.processor.setWand(null);
+				player.addChatMessage(new ChatComponentText("Wand Cleared."));
+			}
+			else if (player.getHeldItem() != null) {
 				Item item = player.getHeldItem().getItem();
-				CSTE.wand = item;
+				CSTE.processor.setWand(item);
 				player.addChatMessage(new ChatComponentText("Set " + item.getUnlocalizedName() + " as the wand."));
 			}
 			else {
 				player.addChatMessage(new ChatComponentText("Please hold the item to use as a wand."));
 			}
-		}
-		if (args.length != 0 && args[0].equalsIgnoreCase("clear")) {
-			CSTELogger.logDebug("Clearing Tool");
-			CSTE.wand = null;
 		}
 	}
 

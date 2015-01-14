@@ -32,7 +32,7 @@ public class CommandCSTEHelp extends CommandBase {
 		CSTELogger.logDebug("Help Command Recieved!!!");
 		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
-			player.addChatMessage(new ChatComponentText("/cste-tool [clear] - selects/clears the item to use as the wand."));
+			player.addChatMessage(new ChatComponentText("/cste-tool [clear] - selects/clears the wand item."));
 		}
 	}
 
