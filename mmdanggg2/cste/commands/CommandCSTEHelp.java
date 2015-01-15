@@ -36,6 +36,7 @@ public class CommandCSTEHelp extends CommandBase {
 			player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.fill.help")));
 			player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.wand.help")));
 			player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.mode.help")));
+			player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.pos.help")));
 		}
 	}
 

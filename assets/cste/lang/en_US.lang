@@ -7,10 +7,15 @@ commands.cste.fill.nomode=Unknown mode selected?!
 
 commands.cste.wand=/cste-wand [clear]
 commands.cste.wand.help=/cste-wand [clear] - selects and clears the wand.
-commands.cste.wand.sel=is now the wand.
+commands.cste.wand.sel=%s is now the wand.
 commands.cste.wand.clear=Wand cleared.
 
 commands.cste.mode=/cste-mode <solid|hollow|frame>
 commands.cste.mode.help=/cste-mode <solid|hollow|frame> - changes the fill mode.
-commands.cste.mode.success=Fill mode changed to
+commands.cste.mode.success=Fill mode changed to %s.
 commands.cste.mode.badarg=Invalid mode. 
+
+commands.cste.pos=/cste-pos <num> [x] [y] [z]
+commands.cste.pos.help=/cste-pos <num> [x] [y] [z] - sets pos to your pos or x y z.
+commands.cste.pos.invalidnum=%s is not a valid pos number.
+commands.cste.pos.posset=Pos%s set to %s.

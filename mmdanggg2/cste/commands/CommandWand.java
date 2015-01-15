@@ -44,7 +44,7 @@ public class CommandWand extends CommandBase {
 				Item item = player.getHeldItem().getItem();
 				CSTELogger.logDebug("Setting Wand: " + item.getUnlocalizedName());
 				CSTE.processor.wand = item;
-				player.addChatMessage(new ChatComponentText(I18n.format(item.getUnlocalizedName() + ".name") + " " + I18n.format("commands.cste.wand.sel")));
+				player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.wand.sel", I18n.format(item.getUnlocalizedName() + ".name"))));
 			}
 			else {
 				CSTELogger.logDebug("Wand unchanged, hand was empty");

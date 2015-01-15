@@ -60,12 +60,5 @@ public class CommandFill extends CommandBase {
         	return null;
         }
     }
-    
-//    public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
-//    {
-//        if (args.length > 0 && args.length <= 3) {
-//        	return func_175771_a(args, 0, pos);
-//        }
-//    }
 
 }
