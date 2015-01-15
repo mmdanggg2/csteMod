@@ -5,46 +5,50 @@ import java.util.List;
 
 import mmdanggg2.cste.CSTE;
 import mmdanggg2.cste.util.CSTELogger;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.StringTranslate;
 
-public class CommandSelectTool extends CommandBase {
+public class CommandWand extends CommandBase {
 
 	@Override
 	public String getName() {
-		return "cste-tool";
+		return "cste-wand";
 	}
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return "/cste-tool [clear]";
+		return I18n.format("commands.cste.wand");
 	}
 
 	@Override
 	public void execute(ICommandSender sender, String[] args) throws CommandException {
-		CSTELogger.logDebug("Tool Command Recieved!!!");
+		CSTELogger.logDebug("Wand Command Recieved!");
 		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
 			if (args.length != 0 && args[0].equalsIgnoreCase("clear")) {
 				CSTELogger.logDebug("Clearing Wand");
 				CSTE.processor.wand = null;
-				player.addChatMessage(new ChatComponentText("Wand Cleared."));
+				player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.wand.clear")));
 			}
 			else if (player.getHeldItem() != null) {
 				Item item = player.getHeldItem().getItem();
+				CSTELogger.logDebug("Setting Wand: " + item.getUnlocalizedName());
 				CSTE.processor.wand = item;
-				player.addChatMessage(new ChatComponentText("Set " + StatCollector.translateToLocal(item.getUnlocalizedName() + ".name") + " as the wand."));
+				player.addChatMessage(new ChatComponentText(I18n.format(item.getUnlocalizedName() + ".name") + " " + I18n.format("commands.cste.wand.sel")));
 			}
 			else {
-				player.addChatMessage(new ChatComponentText("Please hold the item to use as a wand."));
+				CSTELogger.logDebug("Wand unchanged, hand was empty");
+				player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.wand.noitem")));
 			}
 		}
 	}
@@ -53,5 +57,15 @@ public class CommandSelectTool extends CommandBase {
 	public int getRequiredPermissionLevel() {
 		return 0;
 	}
+	
+	public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+    {
+        if(args.length == 1) {
+        	return getListOfStringsMatchingLastWord(args, new String[] {"clear"});
+        }
+        else {
+        	return null;
+        }
+    }
 
 }

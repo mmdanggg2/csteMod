@@ -5,7 +5,8 @@ import mmdanggg2.cste.CSTE;
 import mmdanggg2.cste.CSTEInfo;
 import mmdanggg2.cste.commands.CommandCSTEHelp;
 import mmdanggg2.cste.commands.CommandFill;
-import mmdanggg2.cste.commands.CommandSelectTool;
+import mmdanggg2.cste.commands.CommandMode;
+import mmdanggg2.cste.commands.CommandWand;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelWolf;
 import net.minecraft.client.renderer.ItemModelMesher;
@@ -26,9 +27,10 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void registerCommands() {
 		
-		ClientCommandHandler.instance.registerCommand(new CommandSelectTool());
+		ClientCommandHandler.instance.registerCommand(new CommandWand());
 		ClientCommandHandler.instance.registerCommand(new CommandCSTEHelp());
 		ClientCommandHandler.instance.registerCommand(new CommandFill());
+		ClientCommandHandler.instance.registerCommand(new CommandMode());
 	}
 
 }

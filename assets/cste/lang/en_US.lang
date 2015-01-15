@@ -1,0 +1,16 @@
+commands.cste.help=/cste-help
+
+commands.cste.fill=/cste-fill <block>
+commands.cste.fill.help=/cste-fill <block> - fills the selection with block.
+commands.cste.fill.nosel=No area selected!
+commands.cste.fill.nomode=Unknown mode selected?!
+
+commands.cste.wand=/cste-wand [clear]
+commands.cste.wand.help=/cste-wand [clear] - selects and clears the wand.
+commands.cste.wand.sel=is now the wand.
+commands.cste.wand.clear=Wand cleared.
+
+commands.cste.mode=/cste-mode <solid|hollow|frame>
+commands.cste.mode.help=/cste-mode <solid|hollow|frame> - changes the fill mode.
+commands.cste.mode.success=Fill mode changed to
+commands.cste.mode.badarg=Invalid mode. 
