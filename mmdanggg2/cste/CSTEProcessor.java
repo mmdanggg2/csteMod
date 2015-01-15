@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import mmdanggg2.cste.util.CSTELogger;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -27,6 +28,28 @@ public class CSTEProcessor {
 			if  (positions[0] != null && positions[1] != null) {
 				String command = "/fill " + posToStr(positions[0]) + " " + posToStr(positions[1]) + " " + args[0];
 				Minecraft.getMinecraft().thePlayer.sendChatMessage(command);
+			}
+			else {
+				player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.fill.nosel")));
+			}
+		}
+		else if (buildMode == BuildMode.HOLLOWCUBE) {
+			if  (positions[0] != null && positions[1] != null) {
+				int x1 = positions[0].getX();
+				int y1 = positions[0].getY();
+				int z1 = positions[0].getZ();
+				int x2 = positions[1].getX();
+				int y2 = positions[1].getY();
+				int z2 = positions[1].getZ();
+				
+				EntityPlayerSP mcPlayer = Minecraft.getMinecraft().thePlayer;
+				
+				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x1 + " " + y2 + " " + z2 + " " + args[0]);
+				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x2 + " " + y1 + " " + z2 + " " + args[0]);
+				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x2 + " " + y2 + " " + z1 + " " + args[0]);
+				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x2 + " " + y1 + " " + z1 + " " + args[0]);
+				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x1 + " " + y2 + " " + z1 + " " + args[0]);
+				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x1 + " " + y1 + " " + z2 + " " + args[0]);
 			}
 			else {
 				player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.fill.nosel")));
@@ -68,7 +91,9 @@ public class CSTEProcessor {
 	
 	public void setBuildMode(BuildMode mode) {
 		buildMode = mode;
-		positions = new BlockPos[mode.getPoints()];
+		if (positions.length != mode.getPoints()) {
+			positions = new BlockPos[mode.getPoints()];
+		}
 	}
 	
 	public static String posToStr(BlockPos pos) {
