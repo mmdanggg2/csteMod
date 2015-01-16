@@ -20,6 +20,7 @@ public class CSTEProcessor {
 	private int currPos = 0;
 	public Item wand = null;
 	private BuildMode buildMode = BuildMode.SOLIDCUBE;
+	private boolean building = false;
 
 	public void onBlockActivated(BlockPos pos, EntityPlayer player) {
 		player.addChatMessage(new ChatComponentText("Pos" + (currPos+1) + " = " + posToStr(pos)));
@@ -29,7 +30,9 @@ public class CSTEProcessor {
 	public void onFillCommand(EntityPlayer player, String[] args) {
 		if (positions[0] != null && positions[1] != null) {
 			if (buildMode == BuildMode.SOLIDCUBE) {
+				buildingStart();
 				String command = "/fill " + posToStr(positions[0]) + " " + posToStr(positions[1]) + " " + args[0];
+				buildingStop();
 				Minecraft.getMinecraft().thePlayer.sendChatMessage(command);
 				return;
 			}
@@ -43,12 +46,14 @@ public class CSTEProcessor {
 				
 				EntityPlayerSP mcPlayer = Minecraft.getMinecraft().thePlayer;
 				
+				buildingStart();
 				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x1 + " " + y2 + " " + z2 + " " + args[0]);
 				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x2 + " " + y1 + " " + z2 + " " + args[0]);
 				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x2 + " " + y2 + " " + z1 + " " + args[0]);
 				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x2 + " " + y1 + " " + z1 + " " + args[0]);
 				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x1 + " " + y2 + " " + z1 + " " + args[0]);
 				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x1 + " " + y1 + " " + z2 + " " + args[0]);
+				buildingStop();
 				return;
 			}
 			else if (buildMode == BuildMode.FRAME) {
@@ -113,6 +118,7 @@ public class CSTEProcessor {
 	public int onPosCommand(EntityPlayer player, String arg) {
 		if (arg.equalsIgnoreCase("clear")) {
 			clearPos();
+			player.addChatMessage(new ChatComponentTranslation("commands.cste.pos.clear"));
 			return 0;
 		}
 		else if (StringUtils.isNumeric(arg)) {
@@ -161,6 +167,18 @@ public class CSTEProcessor {
 		Integer z = pos.getZ();
 		String str = x.toString() + " " + y.toString() + " " + z.toString();
 		return str;
+	}
+
+	private void buildingStop() {
+		building = false;
+	}
+
+	private void buildingStart() {
+		building = true;
+	}
+	
+	public boolean isBuilding() {
+		return building;
 	}
 	
 	private enum BuildMode {

@@ -4,6 +4,7 @@ commands.cste.fill=/cste-fill <block>
 commands.cste.fill.help=/cste-fill <block> - fills the selection with block.
 commands.cste.fill.nosel=No area selected!
 commands.cste.fill.nomode=Unknown mode selected?!
+commands.cste.fill.builderr=Some or all of the structure was not built, reason(s): %s
 
 commands.cste.wand=/cste-wand [clear]
 commands.cste.wand.help=/cste-wand [clear] - selects and clears the wand.
@@ -19,3 +20,4 @@ commands.cste.pos=/cste-pos <num> [x] [y] [z]
 commands.cste.pos.help=/cste-pos <num> [x] [y] [z] - sets pos to your pos or x y z.
 commands.cste.pos.invalidnum=%s is not a valid pos number.
 commands.cste.pos.posset=Pos%s set to %s.
+commands.cste.pos.clear=Positions cleared.

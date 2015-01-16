@@ -1,5 +1,6 @@
 package mmdanggg2.cste;
 
+import mmdanggg2.cste.events.ChatRecievedHandler;
 import mmdanggg2.cste.events.PlayerInteractEventHandler;
 import mmdanggg2.cste.util.CSTELogger;
 import net.minecraft.creativetab.CreativeTabs;
@@ -75,6 +76,7 @@ public class CSTE {
 		
 		FMLCommonHandler.instance().bus().register(instance);
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHandler());
+		MinecraftForge.EVENT_BUS.register(new ChatRecievedHandler());
 	}
 	
 	@EventHandler
