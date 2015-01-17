@@ -8,6 +8,8 @@ import mmdanggg2.cste.commands.CommandFill;
 import mmdanggg2.cste.commands.CommandMode;
 import mmdanggg2.cste.commands.CommandPos;
 import mmdanggg2.cste.commands.CommandWand;
+import mmdanggg2.cste.events.ChatRecievedHandler;
+import mmdanggg2.cste.render.RenderSelection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelWolf;
 import net.minecraft.client.renderer.ItemModelMesher;
@@ -17,12 +19,14 @@ import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void registerRenderers() {
+		MinecraftForge.EVENT_BUS.register(new RenderSelection());
 	}
 	
 	@Override

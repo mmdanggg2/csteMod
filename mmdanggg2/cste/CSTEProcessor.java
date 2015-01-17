@@ -28,7 +28,7 @@ public class CSTEProcessor {
 	}
 	
 	public void onFillCommand(EntityPlayer player, String[] args) {
-		if (positions[0] != null && positions[1] != null) {
+		if (hasSelection()) {
 			if (buildMode == BuildMode.SOLIDCUBE) {
 				buildingStart(1, player);
 				String command = "/fill " + posToStr(positions[0]) + " " + posToStr(positions[1]) + " " + args[0];
@@ -136,7 +136,7 @@ public class CSTEProcessor {
 		}
 	}
 	
-	public void setPosInc(BlockPos pos) {
+	private void setPosInc(BlockPos pos) {
 		CSTELogger.logDebug("Setting point " + currPos);
 		positions[currPos] = pos;
 		currPos++;
@@ -145,14 +145,14 @@ public class CSTEProcessor {
 		}
 	}
 	
-	public void clearPos() {
+	private void clearPos() {
 		currPos = 0;
 		for (int i=0; i < positions.length; i++) {
 			positions[i] = null;
 		}
 	}
 	
-	public void setBuildMode(BuildMode mode) {
+	private void setBuildMode(BuildMode mode) {
 		buildMode = mode;
 		currPos = 0;
 		if (positions.length != mode.getPoints()) {
@@ -170,6 +170,20 @@ public class CSTEProcessor {
 
 	private void buildingStart(int numResults, EntityPlayer player) {
 		ChatRecievedHandler.instance.buildingStart(numResults, player);
+	}
+	
+	public boolean hasSelection() {
+		boolean ret = true;
+		for (int i = 0; i < buildMode.getPoints(); i++) {
+			if (positions[i] == null) {
+				ret = false;
+			}
+		}
+		return ret;
+	}
+	
+	public BlockPos[] getSelection() {
+		return positions.clone();
 	}
 	
 	private enum BuildMode {
