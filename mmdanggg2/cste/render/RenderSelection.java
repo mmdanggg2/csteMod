@@ -3,6 +3,7 @@ package mmdanggg2.cste.render;
 import org.lwjgl.opengl.GL11;
 
 import mmdanggg2.cste.CSTE;
+import mmdanggg2.cste.CSTEInfo;
 import mmdanggg2.cste.CSTEProcessor;
 import mmdanggg2.cste.util.CSTELogger;
 import net.minecraft.client.Minecraft;
@@ -28,22 +29,22 @@ public class RenderSelection {
 			Minecraft mc = Minecraft.getMinecraft();
             EntityPlayerSP player = mc.thePlayer;
 			double partialTicks = event.partialTicks;
-			GlStateManager.pushAttrib();
-			GlStateManager.pushMatrix();
             double xOff = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double)partialTicks;
             double yOff = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)partialTicks;
             double zOff = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)partialTicks;
             
             AxisAlignedBB selBBox = new AxisAlignedBB(sel[0].getX(), sel[0].getY(), sel[0].getZ(), sel[1].getX(), sel[1].getY(), sel[1].getZ());
             AxisAlignedBB rendBBox = selBBox.offset(-xOff, -yOff, -zOff);
-            
+			
+			GlStateManager.pushAttrib();
+			GlStateManager.pushMatrix();
 	        GlStateManager.disableTexture2D();
-	        GlStateManager.disableDepth();
+	        if (CSTEInfo.xrayMode) {GlStateManager.disableDepth();}
 	        
-			event.context.drawOutlinedBoundingBox(rendBBox.offset(0.5, 0.5, 0.5).expand(0.5, 0.5, 0.5), Integer.parseInt("B00000", 16));
+			event.context.drawOutlinedBoundingBox(rendBBox.offset(0.5, 0.5, 0.5).expand(0.5, 0.5, 0.5), Integer.parseInt(CSTEInfo.selColour, 16));
 			
 			GlStateManager.enableTexture2D();
-			GlStateManager.enableDepth();
+			if (CSTEInfo.xrayMode) {GlStateManager.enableDepth();}
 			GlStateManager.popMatrix();
 			GlStateManager.popAttrib();
 		}

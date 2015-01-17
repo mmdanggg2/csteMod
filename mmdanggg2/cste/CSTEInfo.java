@@ -11,4 +11,7 @@ public class CSTEInfo {
 	// Settings
 	public static boolean debug;
 	
+	public static String selColour;
+	public static boolean xrayMode;
+	
 }

@@ -12,6 +12,7 @@ commands.cste.wand=/cste-wand [clear]
 commands.cste.wand.help=/cste-wand [clear] - selects and clears the wand.
 commands.cste.wand.sel=%s is now the wand.
 commands.cste.wand.clear=Wand cleared.
+commands.cste.wand.noitem=No item in hand.
 
 commands.cste.mode=/cste-mode <solid|hollow|frame>
 commands.cste.mode.help=/cste-mode <solid|hollow|frame> - changes the fill mode.

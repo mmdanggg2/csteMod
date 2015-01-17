@@ -1,5 +1,7 @@
 package mmdanggg2.cste;
 
+import java.util.regex.Pattern;
+
 import mmdanggg2.cste.events.ChatRecievedHandler;
 import mmdanggg2.cste.events.PlayerInteractEventHandler;
 import mmdanggg2.cste.util.CSTELogger;
@@ -10,6 +12,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.common.util.EnumHelper;
@@ -90,6 +93,12 @@ public class CSTE {
 	public static void updateConfig() {
 		
 		CSTEInfo.debug = config.get("debug", "DebugOutput", false, "Show debug output in log (Default false)").getBoolean(false);
+		
+		Property colourProp = config.get("general", "SelectionColour", "B00000", "The colour of the selection box in HEX format (Default B00000)");
+		colourProp = colourProp.setValidationPattern(Pattern.compile("[0-F]{6}", Pattern.CASE_INSENSITIVE));
+		CSTEInfo.selColour = colourProp.getString().toUpperCase();
+		
+		CSTEInfo.xrayMode = config.get("general", "XrayMode", true, "Show selection through blocks (Default true)").getBoolean(true);
 		
 		// saving the configuration to its file
 		if (config.hasChanged()){
