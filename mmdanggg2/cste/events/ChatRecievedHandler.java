@@ -35,7 +35,7 @@ public class ChatRecievedHandler {
 
 	@SubscribeEvent
 	public void handleEvent(ClientChatReceivedEvent event) {
-		if (event.type == 1/* && CSTE.processor.isBuilding()*/) {
+		if (event.type == 1 && building) {
 			CSTELogger.logDebug("System message recieved: " + event.message.getUnformattedText());
 			if (event.message.getUnformattedText().equals(I18n.format("commands.fill.outOfWorld"))) {
 				error(ErrorType.OUTOFWORLD, event.message.getUnformattedText());
@@ -75,7 +75,7 @@ public class ChatRecievedHandler {
 			if (messagesGathered >= messagesNeeded) {
 				if (error) {
 					IChatComponent errorMessage = new ChatComponentText(getError());
-					errorMessage.getChatStyle().setColor(EnumChatFormatting.DARK_RED);
+					errorMessage.getChatStyle().setColor(EnumChatFormatting.RED);
 					player.addChatMessage(errorMessage);
 				}
 				player.addChatMessage(new ChatComponentText(getChanged()));
@@ -105,13 +105,17 @@ public class ChatRecievedHandler {
 	private String getError() {
 		CSTELogger.logDebug("Getting errors");
 		StringBuilder sb = new StringBuilder();
+		boolean comma = false;
 		for (String str : errors.values()) {
+			if (comma) {
+				sb.append(", ");
+			}
 			if (!str.isEmpty()){
+				comma = true;
 				sb.append(str);
 			}
 		}
 		String out = I18n.format("commands.cste.fill.builderr", sb.toString());
-		clearAll();
 		return out;
 	}
 		
@@ -125,7 +129,6 @@ public class ChatRecievedHandler {
 			CSTELogger.logDebug("No blocks changed");
 			str = I18n.format("commands.cste.fill.nochange");
 		}
-		clearAll();
 		return str;
 	}
 	
