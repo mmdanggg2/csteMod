@@ -1,8 +1,6 @@
 package mmdanggg2.cste.events;
 
 import mmdanggg2.cste.CSTE;
-import mmdanggg2.cste.CSTEProcessor;
-import mmdanggg2.cste.util.CSTELogger;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 

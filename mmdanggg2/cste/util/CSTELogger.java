@@ -1,9 +1,8 @@
 package mmdanggg2.cste.util;
 
-import org.apache.logging.log4j.Logger;
-
 import mmdanggg2.cste.CSTEInfo;
-import net.minecraftforge.fml.common.FMLLog;
+
+import org.apache.logging.log4j.Logger;
 
 public class CSTELogger {
 	

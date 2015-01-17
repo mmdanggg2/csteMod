@@ -1,9 +1,5 @@
 package mmdanggg2.cste;
 
-import java.util.ArrayList;
-
-import org.apache.commons.lang3.StringUtils;
-
 import mmdanggg2.cste.events.ChatRecievedHandler;
 import mmdanggg2.cste.util.CSTELogger;
 import net.minecraft.client.Minecraft;
@@ -14,7 +10,8 @@ import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
-import net.minecraftforge.client.ClientCommandHandler;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class CSTEProcessor {
 	private BlockPos[] positions = new BlockPos[2];

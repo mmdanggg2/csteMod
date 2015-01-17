@@ -1,20 +1,14 @@
 package mmdanggg2.cste.render;
 
-import org.lwjgl.opengl.GL11;
-
 import mmdanggg2.cste.CSTE;
 import mmdanggg2.cste.CSTEInfo;
-import mmdanggg2.cste.CSTEProcessor;
-import mmdanggg2.cste.util.CSTELogger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
-import net.minecraft.world.WorldManager;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 

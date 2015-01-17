@@ -5,17 +5,11 @@ import java.util.regex.Pattern;
 import mmdanggg2.cste.events.ChatRecievedHandler;
 import mmdanggg2.cste.events.PlayerInteractEventHandler;
 import mmdanggg2.cste.util.CSTELogger;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -55,18 +49,6 @@ public class CSTE {
 		// loading the configuration from its file
 		config.load();
 		updateConfig();
-
-//		CSTELogger.logInfo("Registering Items");
-//		DogeRegisterItems.register();
-//		
-//		CSTELogger.logInfo("Registering Blocks");
-//		DogeRegisterBlocks.register();
-//		
-//		CSTELogger.logInfo("Registering Entities");
-//		DogeRegisterEntities.register();
-//		
-//		CSTELogger.logInfo("Registering Recipies");
-//		DogeRegisterRecipies.register();
 	}
 	
 	@EventHandler
@@ -87,7 +69,7 @@ public class CSTE {
 		if (event.getSide().isServer()) {
 			return;
 		}
-		this.processor = new CSTEProcessor();
+		CSTE.processor = new CSTEProcessor();
 	}
 	
 	public static void updateConfig() {
