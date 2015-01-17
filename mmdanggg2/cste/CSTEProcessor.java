@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.lang3.StringUtils;
 
+import mmdanggg2.cste.events.ChatRecievedHandler;
 import mmdanggg2.cste.util.CSTELogger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -20,7 +21,6 @@ public class CSTEProcessor {
 	private int currPos = 0;
 	public Item wand = null;
 	private BuildMode buildMode = BuildMode.SOLIDCUBE;
-	private boolean building = false;
 
 	public void onBlockActivated(BlockPos pos, EntityPlayer player) {
 		player.addChatMessage(new ChatComponentText("Pos" + (currPos+1) + " = " + posToStr(pos)));
@@ -30,9 +30,8 @@ public class CSTEProcessor {
 	public void onFillCommand(EntityPlayer player, String[] args) {
 		if (positions[0] != null && positions[1] != null) {
 			if (buildMode == BuildMode.SOLIDCUBE) {
-				buildingStart();
+				buildingStart(1, player);
 				String command = "/fill " + posToStr(positions[0]) + " " + posToStr(positions[1]) + " " + args[0];
-				buildingStop();
 				Minecraft.getMinecraft().thePlayer.sendChatMessage(command);
 				return;
 			}
@@ -46,14 +45,13 @@ public class CSTEProcessor {
 				
 				EntityPlayerSP mcPlayer = Minecraft.getMinecraft().thePlayer;
 				
-				buildingStart();
+				buildingStart(6, player);
 				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x1 + " " + y2 + " " + z2 + " " + args[0]);
 				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x2 + " " + y1 + " " + z2 + " " + args[0]);
 				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x2 + " " + y2 + " " + z1 + " " + args[0]);
 				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x2 + " " + y1 + " " + z1 + " " + args[0]);
 				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x1 + " " + y2 + " " + z1 + " " + args[0]);
 				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x1 + " " + y1 + " " + z2 + " " + args[0]);
-				buildingStop();
 				return;
 			}
 			else if (buildMode == BuildMode.FRAME) {
@@ -66,6 +64,7 @@ public class CSTEProcessor {
 				
 				EntityPlayerSP mcPlayer = Minecraft.getMinecraft().thePlayer;
 				
+				buildingStart(12, player);
 				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x2,y1,z1}, ' ') + " " + args[0]);
 				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x1,y2,z1}, ' ') + " " + args[0]);
 				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x1,y1,z2}, ' ') + " " + args[0]);
@@ -169,16 +168,8 @@ public class CSTEProcessor {
 		return str;
 	}
 
-	private void buildingStop() {
-		building = false;
-	}
-
-	private void buildingStart() {
-		building = true;
-	}
-	
-	public boolean isBuilding() {
-		return building;
+	private void buildingStart(int numResults, EntityPlayer player) {
+		ChatRecievedHandler.instance.buildingStart(numResults, player);
 	}
 	
 	private enum BuildMode {

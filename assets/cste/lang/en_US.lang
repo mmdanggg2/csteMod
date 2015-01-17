@@ -5,6 +5,8 @@ commands.cste.fill.help=/cste-fill <block> - fills the selection with block.
 commands.cste.fill.nosel=No area selected!
 commands.cste.fill.nomode=Unknown mode selected?!
 commands.cste.fill.builderr=Some or all of the structure was not built, reason(s): %s
+commands.cste.fill.success=%s blocks changed.
+commands.cste.fill.nochange=No blocks changed.
 
 commands.cste.wand=/cste-wand [clear]
 commands.cste.wand.help=/cste-wand [clear] - selects and clears the wand.

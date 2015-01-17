@@ -9,7 +9,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import mmdanggg2.cste.CSTE;
 import mmdanggg2.cste.util.CSTELogger;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -18,6 +23,15 @@ public class ChatRecievedHandler {
 	private Map<ErrorType, String> errors = new HashMap<ErrorType, String>();
 	private boolean error = false;
 	private int blocksChanged = 0;
+	private int messagesNeeded = 0;
+	private int messagesGathered = 0;
+	private boolean building;
+	private EntityPlayer player;
+	public static ChatRecievedHandler instance;
+
+	public ChatRecievedHandler() {
+		instance = this;
+	}
 
 	@SubscribeEvent
 	public void handleEvent(ClientChatReceivedEvent event) {
@@ -25,22 +39,26 @@ public class ChatRecievedHandler {
 			CSTELogger.logDebug("System message recieved: " + event.message.getUnformattedText());
 			if (event.message.getUnformattedText().equals(I18n.format("commands.fill.outOfWorld"))) {
 				error(ErrorType.OUTOFWORLD, event.message.getUnformattedText());
+				messagesGathered++;
 				event.setCanceled(true);
 			}
 			else if (event.message.getUnformattedText().contains(I18n.format("commands.fill.tagError", ""))) {
 				error(ErrorType.TAGERROR, event.message.getUnformattedText());
+				messagesGathered++;
 				event.setCanceled(true);
 			}
 			else if (event.message.getUnformattedText().contains(I18n.format("commands.give.notFound", ""))) {
 				error(ErrorType.BLOCKNOTFOUND, event.message.getUnformattedText());
+				messagesGathered++;
 				event.setCanceled(true);
 			}
 			else if (event.message.getUnformattedText().contains(I18n.format("commands.fill.tooManyBlocks", "SPLIT", "").split("SPLIT")[0])) {
 				error(ErrorType.TOOMANYBLOCKS, event.message.getUnformattedText());
+				messagesGathered++;
 				event.setCanceled(true);
 			}
 			else if (event.message.getUnformattedText().contains(I18n.format("commands.fill.failed"))) {
-				CSTELogger.logDebug("No blocks changed.");
+				messagesGathered++;
 				event.setCanceled(true);
 			}
 			else if (event.message.getUnformattedText().contains(I18n.format("commands.fill.success", ""))) {
@@ -50,19 +68,19 @@ public class ChatRecievedHandler {
 					blocksChanged += changed;
 					CSTELogger.logDebug(changed + " blocks changed, total: " + blocksChanged);
 				}
+				messagesGathered++;
+				event.setCanceled(true);
 			}
-//			String responsesNoTrans[] = new String[] {"commands.fill.outOfWorld",
-//					"commands.fill.tagError",
-//					"commands.fill.success",
-//					"commands.fill.failed",
-//					"commands.fill.tooManyBlocks"};
-//			String responses[] = new String[responsesNoTrans.length];
-//			for (int i = 0; i < responsesNoTrans.length; i++) {
-//				responses[i] = I18n.format(responsesNoTrans[i], "INT", "INT");
-//			}
-//			for (String str : responses) {
-//				CSTELogger.logDebug("Responce: " + str/*.split("INT")[0]*/);
-//			}
+			CSTELogger.logDebug(messagesGathered + " messages gathered.");
+			if (messagesGathered >= messagesNeeded) {
+				if (error) {
+					IChatComponent errorMessage = new ChatComponentText(getError());
+					errorMessage.getChatStyle().setColor(EnumChatFormatting.DARK_RED);
+					player.addChatMessage(errorMessage);
+				}
+				player.addChatMessage(new ChatComponentText(getChanged()));
+				clearAll();
+			}
 		}
 	}
 	
@@ -75,9 +93,46 @@ public class ChatRecievedHandler {
 		}
 	}
 	
-	public void clearErrors() {
+	private void clearAll() {
+		blocksChanged = 0;
+		messagesGathered = 0;
+		messagesNeeded = 0;
+		building = false;
 		error = false;
 		errors.clear();
+	}
+	
+	private String getError() {
+		CSTELogger.logDebug("Getting errors");
+		StringBuilder sb = new StringBuilder();
+		for (String str : errors.values()) {
+			if (!str.isEmpty()){
+				sb.append(str);
+			}
+		}
+		String out = I18n.format("commands.cste.fill.builderr", sb.toString());
+		clearAll();
+		return out;
+	}
+		
+	private String getChanged() {
+		String str;
+		if (blocksChanged > 0) {
+			CSTELogger.logDebug(blocksChanged + " blocks were changed.");
+			str = I18n.format("commands.cste.fill.success", blocksChanged);
+		}
+		else {
+			CSTELogger.logDebug("No blocks changed");
+			str = I18n.format("commands.cste.fill.nochange");
+		}
+		clearAll();
+		return str;
+	}
+	
+	public void buildingStart(int numResults, EntityPlayer player) {
+		building = true;
+		messagesNeeded = numResults;
+		this.player = player;
 	}
 	
 	private enum ErrorType {
