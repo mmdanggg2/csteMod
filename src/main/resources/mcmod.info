@@ -9,7 +9,7 @@
         ], 
         "updateUrl": "", 
         "credits": "Made by your friendly neighborhood mmdanggg2", 
-        "version": "0.0.0", 
+        "version": "${version}", 
         "modid": "cste", 
         "authors": [
             "mmdanggg2"

@@ -18,8 +18,8 @@ buildscript {
 apply plugin: 'forge'
 
 version = "1.0"
-group= "mmdanggg2.doge" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "doge"
+group= "mmdanggg2.cste" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "cste"
 
 minecraft {
     version = "1.8-11.14.0.1289-1.8"
