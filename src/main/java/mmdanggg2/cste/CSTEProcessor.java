@@ -26,9 +26,10 @@ public class CSTEProcessor {
 	
 	public void onFillCommand(EntityPlayer player, String[] args) {
 		if (hasSelection()) {
+			String argStr = StringUtils.join(args, " ");
 			if (buildMode == BuildMode.SOLIDCUBE) {
 				buildingStart(1, player);
-				String command = "/fill " + posToStr(positions[0]) + " " + posToStr(positions[1]) + " " + args[0];
+				String command = "/fill " + posToStr(positions[0]) + " " + posToStr(positions[1]) + " " + argStr;
 				Minecraft.getMinecraft().thePlayer.sendChatMessage(command);
 				return;
 			}
@@ -43,12 +44,12 @@ public class CSTEProcessor {
 				EntityPlayerSP mcPlayer = Minecraft.getMinecraft().thePlayer;
 				
 				buildingStart(6, player);
-				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x1 + " " + y2 + " " + z2 + " " + args[0]);
-				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x2 + " " + y1 + " " + z2 + " " + args[0]);
-				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x2 + " " + y2 + " " + z1 + " " + args[0]);
-				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x2 + " " + y1 + " " + z1 + " " + args[0]);
-				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x1 + " " + y2 + " " + z1 + " " + args[0]);
-				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x1 + " " + y1 + " " + z2 + " " + args[0]);
+				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x1 + " " + y2 + " " + z2 + " " + argStr);
+				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x2 + " " + y1 + " " + z2 + " " + argStr);
+				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x2 + " " + y2 + " " + z1 + " " + argStr);
+				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x2 + " " + y1 + " " + z1 + " " + argStr);
+				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x1 + " " + y2 + " " + z1 + " " + argStr);
+				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x1 + " " + y1 + " " + z2 + " " + argStr);
 				return;
 			}
 			else if (buildMode == BuildMode.FRAME) {
@@ -62,18 +63,18 @@ public class CSTEProcessor {
 				EntityPlayerSP mcPlayer = Minecraft.getMinecraft().thePlayer;
 				
 				buildingStart(12, player);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x2,y1,z1}, ' ') + " " + args[0]);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x1,y2,z1}, ' ') + " " + args[0]);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x1,y1,z2}, ' ') + " " + args[0]);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x2,y1,z1,x2,y1,z2}, ' ') + " " + args[0]);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x2,y1,z1,x2,y2,z1}, ' ') + " " + args[0]);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y2,z1,x1,y2,z2}, ' ') + " " + args[0]);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y2,z1,x2,y2,z1}, ' ') + " " + args[0]);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z2,x1,y2,z2}, ' ') + " " + args[0]);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z2,x2,y1,z2}, ' ') + " " + args[0]);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x1,y2,z2}, ' ') + " " + args[0]);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x2,y1,z2}, ' ') + " " + args[0]);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x2,y2,z1}, ' ') + " " + args[0]);
+				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x2,y1,z1}, ' ') + " " + argStr);
+				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x1,y2,z1}, ' ') + " " + argStr);
+				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x1,y1,z2}, ' ') + " " + argStr);
+				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x2,y1,z1,x2,y1,z2}, ' ') + " " + argStr);
+				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x2,y1,z1,x2,y2,z1}, ' ') + " " + argStr);
+				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y2,z1,x1,y2,z2}, ' ') + " " + argStr);
+				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y2,z1,x2,y2,z1}, ' ') + " " + argStr);
+				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z2,x1,y2,z2}, ' ') + " " + argStr);
+				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z2,x2,y1,z2}, ' ') + " " + argStr);
+				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x1,y2,z2}, ' ') + " " + argStr);
+				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x2,y1,z2}, ' ') + " " + argStr);
+				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x2,y2,z1}, ' ') + " " + argStr);
 				return;
 			}
 		}

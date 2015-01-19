@@ -47,8 +47,11 @@ public class CommandFill extends CommandBase {
 
     public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        if(args.length == 1) {
+        if (args.length == 1) {
         	return func_175762_a(args, Block.blockRegistry.getKeys());
+        }
+        if (args.length == 3) {
+        	return getListOfStringsMatchingLastWord(args, new String[] {"replace", "destroy", "keep", "hollow", "outline"});
         }
         else {
         	return null;
