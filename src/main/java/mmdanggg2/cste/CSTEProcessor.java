@@ -19,7 +19,7 @@ public class CSTEProcessor {
 	public Item wand = null;
 	private BuildMode buildMode = BuildMode.SOLIDCUBE;
 
-	public void onBlockActivated(BlockPos pos, EntityPlayer player) {
+	public void onBlockActivated(EntityPlayer player, BlockPos pos) {
 		player.addChatMessage(new ChatComponentText("Pos" + (currPos+1) + " = " + posToStr(pos)));
 		setPosInc(pos);
 	}
@@ -79,10 +79,10 @@ public class CSTEProcessor {
 			}
 		}
 		else {
-			player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.fill.nosel")));
+			player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.fill.nosel")));
 			return;
 		}
-		player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.fill.nomode")));
+		player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.fill.nomode")));
 	}
 
 	public void onModeCommand(EntityPlayer player, String[] args) {
@@ -91,12 +91,12 @@ public class CSTEProcessor {
 			if (args[0].equalsIgnoreCase(mode.getName())) {
 				CSTELogger.logDebug("Match, setting mode.");
 				setBuildMode(mode);
-				player.addChatMessage(new ChatComponentTranslation("commands.cste.mode.success", args[0]));
+				player.addChatMessage(new ChatComponentTranslation("cste.commands.mode.success", args[0]));
 				return;
 			}
 		}
 		CSTELogger.logDebug("No match found!");
-		player.addChatMessage(new ChatComponentTranslation("commands.cste.mode.badarg"));
+		player.addChatMessage(new ChatComponentTranslation("cste.commands.mode.badarg"));
 	}
 	
 	public int onPosCommand(EntityPlayer player, int[] args) {
@@ -104,7 +104,7 @@ public class CSTEProcessor {
 		if (posNum <= positions.length-1 && posNum > -1) {
 			BlockPos pos = new BlockPos(args[1], args[2], args[3]);
 			positions[posNum] = pos;
-			player.addChatMessage(new ChatComponentTranslation("commands.cste.pos.posset", args[0], posToStr(pos)));
+			player.addChatMessage(new ChatComponentTranslation("cste.commands.pos.posset", args[0], posToStr(pos)));
 			return 0;
 		}
 		else {
@@ -112,17 +112,17 @@ public class CSTEProcessor {
 		}
 	}
 	
-	public int onPosCommand(EntityPlayer player, String arg) {
+	public int onPosCommand(String arg, EntityPlayer player) {
 		if (arg.equalsIgnoreCase("clear")) {
 			clearPos();
-			player.addChatMessage(new ChatComponentTranslation("commands.cste.pos.clear"));
+			player.addChatMessage(new ChatComponentTranslation("cste.commands.pos.clear"));
 			return 0;
 		}
 		else if (StringUtils.isNumeric(arg)) {
 			int posNum = Integer.parseInt(arg) - 1;
 			if (posNum <= positions.length-1 && posNum > -1) {
 				positions[posNum] = player.getPosition();
-				player.addChatMessage(new ChatComponentTranslation("commands.cste.pos.posset", arg, posToStr(player.getPosition())));
+				player.addChatMessage(new ChatComponentTranslation("cste.commands.pos.posset", arg, posToStr(player.getPosition())));
 				return 0;
 			}
 			else {

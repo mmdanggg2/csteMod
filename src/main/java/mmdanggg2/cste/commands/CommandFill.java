@@ -22,7 +22,7 @@ public class CommandFill extends CommandBase {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return I18n.format("commands.cste.fill");
+		return I18n.format("cste.commands.fill");
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class CommandFill extends CommandBase {
 			}
 			else {
 				CSTELogger.logDebug("No args were given.");
-				throw new WrongUsageException("commands.cste.fill", new Object[0]);
+				throw new WrongUsageException("cste.commands.fill", new Object[0]);
 			}
 		}
 	}

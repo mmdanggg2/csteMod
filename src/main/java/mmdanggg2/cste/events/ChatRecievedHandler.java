@@ -111,7 +111,7 @@ public class ChatRecievedHandler {
 				sb.append(str);
 			}
 		}
-		String out = I18n.format("commands.cste.fill.builderr", sb.toString());
+		String out = I18n.format("cste.commands.fill.builderr", sb.toString());
 		return out;
 	}
 		
@@ -119,11 +119,11 @@ public class ChatRecievedHandler {
 		String str;
 		if (blocksChanged > 0) {
 			CSTELogger.logDebug(blocksChanged + " blocks were changed.");
-			str = I18n.format("commands.cste.fill.success", blocksChanged);
+			str = I18n.format("cste.commands.fill.success", blocksChanged);
 		}
 		else {
 			CSTELogger.logDebug("No blocks changed");
-			str = I18n.format("commands.cste.fill.nochange");
+			str = I18n.format("cste.commands.fill.nochange");
 		}
 		return str;
 	}

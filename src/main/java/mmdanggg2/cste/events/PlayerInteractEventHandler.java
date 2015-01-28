@@ -14,7 +14,7 @@ public class PlayerInteractEventHandler {
 				if (event.entityPlayer.getCurrentEquippedItem().getItem() == CSTE.processor.wand) {
 					if (event.action == Action.RIGHT_CLICK_BLOCK) {
 						event.setCanceled(true);
-						CSTE.processor.onBlockActivated(event.pos, event.entityPlayer);
+						CSTE.processor.onBlockActivated(event.entityPlayer, event.pos);
 					}
 				}
 			}

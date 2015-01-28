@@ -17,7 +17,7 @@ public class CommandCSTEHelp extends CommandBase {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return I18n.format("commands.cste.help");
+		return I18n.format("cste.commands.help");
 	}
 
 	@Override
@@ -25,10 +25,10 @@ public class CommandCSTEHelp extends CommandBase {
 		CSTELogger.logDebug("Help Command Recieved!");
 		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
-			player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.fill.help")));
-			player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.wand.help")));
-			player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.mode.help")));
-			player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.pos.help")));
+			player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.fill.help")));
+			player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.wand.help")));
+			player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.mode.help")));
+			player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.pos.help")));
 		}
 	}
 

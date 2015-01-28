@@ -21,7 +21,7 @@ public class CommandMode extends CommandBase {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return I18n.format("commands.cste.mode");
+		return I18n.format("cste.commands.mode");
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class CommandMode extends CommandBase {
 			}
 			else {
 				CSTELogger.logDebug("No args were given.");
-				throw new WrongUsageException("commands.cste.mode", new Object[0]);
+				throw new WrongUsageException("cste.commands.mode", new Object[0]);
 			}
 		}
 	}

@@ -22,7 +22,7 @@ public class CommandWand extends CommandBase {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return I18n.format("commands.cste.wand");
+		return I18n.format("cste.commands.wand");
 	}
 
 	@Override
@@ -33,17 +33,17 @@ public class CommandWand extends CommandBase {
 			if (args.length != 0 && args[0].equalsIgnoreCase("clear")) {
 				CSTELogger.logDebug("Clearing Wand");
 				CSTE.processor.wand = null;
-				player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.wand.clear")));
+				player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.wand.clear")));
 			}
 			else if (player.getHeldItem() != null) {
 				Item item = player.getHeldItem().getItem();
 				CSTELogger.logDebug("Setting Wand: " + item.getUnlocalizedName());
 				CSTE.processor.wand = item;
-				player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.wand.sel", I18n.format(item.getUnlocalizedName() + ".name"))));
+				player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.wand.sel", I18n.format(item.getUnlocalizedName() + ".name"))));
 			}
 			else {
 				CSTELogger.logDebug("Wand unchanged, hand was empty");
-				player.addChatMessage(new ChatComponentText(I18n.format("commands.cste.wand.noitem")));
+				player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.wand.noitem")));
 			}
 		}
 	}

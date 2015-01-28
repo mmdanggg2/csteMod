@@ -23,7 +23,7 @@ public class CommandPos extends CommandBase {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return I18n.format("commands.cste.pos");
+		return I18n.format("cste.commands.pos");
 	}
 
 	@Override
@@ -42,29 +42,29 @@ public class CommandPos extends CommandBase {
 						}
 						else {
 							CSTELogger.logDebug("Args given were not ints");
-							throw new WrongUsageException("commands.cste.pos", new Object[0]);
+							throw new WrongUsageException("cste.commands.pos", new Object[0]);
 						}
 					}
 					result = CSTE.processor.onPosCommand(player, intArgs);
 				}
 				else if (args.length == 1) {
-					result = CSTE.processor.onPosCommand(player, args[0]);
+					result = CSTE.processor.onPosCommand(args[0], player);
 				}
 				else {
 					CSTELogger.logDebug("Incorrect num of args");
-					throw new WrongUsageException("commands.cste.pos", new Object[0]);
+					throw new WrongUsageException("cste.commands.pos", new Object[0]);
 				}
 				switch (result) {
 				case 0:	return;
 				case 1:	CSTELogger.logDebug("Arg not \"clear\" or int");
-						throw new WrongUsageException("commands.cste.pos", new Object[0]);
+						throw new WrongUsageException("cste.commands.pos", new Object[0]);
 				case 2: CSTELogger.logDebug("Invalid pos number");
-						throw new CommandException("commands.cste.pos.invalidnum", args[0]);
+						throw new CommandException("cste.commands.pos.invalidnum", args[0]);
 				}
 			}
 			else {
 				CSTELogger.logDebug("No args were given.");
-				throw new WrongUsageException("commands.cste.pos", new Object[0]);
+				throw new WrongUsageException("cste.commands.pos", new Object[0]);
 			}
 		}
 	}
