@@ -14,16 +14,22 @@ cste.commands.wand.sel=%s is now the wand.
 cste.commands.wand.clear=Wand cleared.
 cste.commands.wand.noitem=No item in hand.
 
-cste.commands.mode=/cste-mode <solid|hollow|frame>
-cste.commands.mode.help=/cste-mode <solid|hollow|frame> - changes the fill mode.
-cste.commands.mode.success=Fill mode changed to %s.
-cste.commands.mode.badarg=Invalid mode. 
+cste.commands.selmode=/cste-mode <solid|hollow|frame>
+cste.commands.selmode.help=/cste-mode <solid|hollow|frame> - changes the fill mode.
+cste.commands.selmode.success=Fill mode changed to %s.
+cste.commands.selmode.badarg=Invalid mode. 
 
 cste.commands.pos=/cste-pos <num> [x] [y] [z]
 cste.commands.pos.help=/cste-pos <num> [x] [y] [z] - sets pos to your pos or x y z.
 cste.commands.pos.invalidnum=%s is not a valid pos number.
 cste.commands.pos.posset=Pos%s set to %s.
 cste.commands.pos.clear=Positions cleared.
+
+cste.commands.brush=/cste-brush [clear]
+cste.commands.brush.help=/cste-brush [clear] - selects and clears the brush.
+cste.commands.brush.sel=%s is now the brush.
+cste.commands.brush.clear=Brush cleared.
+cste.commands.brush.noitem=No item in hand.
 
 cste.keybinding.category=CSTE Keybindings
 cste.keybinding.usebrush=Use brush

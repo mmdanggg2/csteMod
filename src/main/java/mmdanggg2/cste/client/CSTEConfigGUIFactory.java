@@ -19,8 +19,8 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 
 public class CSTEConfigGUIFactory implements IModGuiFactory {
 	
-	public static class DogeConfigGUI extends GuiConfig {
-	    public DogeConfigGUI(GuiScreen parent) {
+	public static class CSTEConfigGUI extends GuiConfig {
+	    public CSTEConfigGUI(GuiScreen parent) {
 	        super(parent, getConfigElements(), CSTEInfo.ID, false, false, GuiConfig.getAbridgedConfigPath(CSTE.config.toString()));
 	    }
 	    
@@ -43,7 +43,7 @@ public class CSTEConfigGUIFactory implements IModGuiFactory {
             		confEntry.add(new ConfigElement(childCatConf));
             	}
             	
-            	list.add(new DummyCategoryElement(catStr, "doge.config." + catStr, confEntry));
+            	list.add(new DummyCategoryElement(catStr, "cste.config." + catStr, confEntry));
             }
             
             return list;
@@ -55,20 +55,17 @@ public class CSTEConfigGUIFactory implements IModGuiFactory {
 
 	@Override
 	public Class<? extends GuiScreen> mainConfigGuiClass() {
-		// TODO Auto-generated method stub
-		return DogeConfigGUI.class;
+		return CSTEConfigGUI.class;
 	}
 
 	@Override
 	public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public RuntimeOptionGuiHandler getHandlerFor(
 			RuntimeOptionCategoryElement element) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

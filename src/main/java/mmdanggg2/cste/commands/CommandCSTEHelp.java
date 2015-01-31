@@ -27,7 +27,7 @@ public class CommandCSTEHelp extends CommandBase {
 			EntityPlayer player = (EntityPlayer) sender;
 			player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.fill.help")));
 			player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.wand.help")));
-			player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.mode.help")));
+			player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.selmode.help")));
 			player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.pos.help")));
 		}
 	}

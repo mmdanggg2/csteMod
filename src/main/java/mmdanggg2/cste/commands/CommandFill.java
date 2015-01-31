@@ -31,7 +31,7 @@ public class CommandFill extends CommandBase {
 		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
 			if (!(args.length < 1)) {
-				CSTE.processor.onFillCommand(player, args);
+				CSTE.selProcessor.onFillCommand(player, args);
 			}
 			else {
 				CSTELogger.logDebug("No args were given.");

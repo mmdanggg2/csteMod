@@ -13,37 +13,37 @@ import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 
-public class CommandWand extends CommandBase {
+public class CommandBrush extends CommandBase {
 
 	@Override
 	public String getName() {
-		return "cste-wand";
+		return "cste-brush";
 	}
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return I18n.format("cste.commands.wand");
+		return I18n.format("cste.commands.brush");
 	}
 
 	@Override
 	public void execute(ICommandSender sender, String[] args) throws CommandException {
-		CSTELogger.logDebug("Wand Command Recieved!");
+		CSTELogger.logDebug("Brush Command Recieved!");
 		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
 			if (args.length != 0 && args[0].equalsIgnoreCase("clear")) {
-				CSTELogger.logDebug("Clearing Wand");
+				CSTELogger.logDebug("Clearing Brush");
 				CSTE.selProcessor.wand = null;
-				player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.wand.clear")));
+				player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.brush.clear")));
 			}
 			else if (player.getHeldItem() != null) {
 				Item item = player.getHeldItem().getItem();
-				CSTELogger.logDebug("Setting Wand: " + item.getUnlocalizedName());
-				CSTE.selProcessor.wand = item;
-				player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.wand.sel", I18n.format(item.getUnlocalizedName() + ".name"))));
+				CSTELogger.logDebug("Setting Brush: " + item.getUnlocalizedName());
+				CSTE.brushProcessor.brush = item;
+				player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.brush.sel", I18n.format(item.getUnlocalizedName() + ".name"))));
 			}
 			else {
-				CSTELogger.logDebug("Wand unchanged, hand was empty");
-				player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.wand.noitem")));
+				CSTELogger.logDebug("Brush unchanged, hand was empty");
+				player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.brush.noitem")));
 			}
 		}
 	}

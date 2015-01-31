@@ -13,7 +13,7 @@ import net.minecraft.util.ChatComponentTranslation;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class CSTEProcessor {
+public class CSTESelectionProcessor {
 	private BlockPos[] positions = new BlockPos[2];
 	private int currPos = 0;
 	public Item wand = null;
@@ -91,12 +91,12 @@ public class CSTEProcessor {
 			if (args[0].equalsIgnoreCase(mode.getName())) {
 				CSTELogger.logDebug("Match, setting mode.");
 				setBuildMode(mode);
-				player.addChatMessage(new ChatComponentTranslation("cste.commands.mode.success", args[0]));
+				player.addChatMessage(new ChatComponentTranslation("cste.commands.selmode.success", args[0]));
 				return;
 			}
 		}
 		CSTELogger.logDebug("No match found!");
-		player.addChatMessage(new ChatComponentTranslation("cste.commands.mode.badarg"));
+		player.addChatMessage(new ChatComponentTranslation("cste.commands.selmode.badarg"));
 	}
 	
 	public int onPosCommand(EntityPlayer player, int[] args) {

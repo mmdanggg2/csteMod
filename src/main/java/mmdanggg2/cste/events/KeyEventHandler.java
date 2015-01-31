@@ -3,7 +3,7 @@ package mmdanggg2.cste.events;
 import org.lwjgl.input.Keyboard;
 
 import mmdanggg2.cste.CSTE;
-import mmdanggg2.cste.CSTEProcessor;
+import mmdanggg2.cste.CSTESelectionProcessor;
 import mmdanggg2.cste.util.CSTELogger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
@@ -39,8 +39,8 @@ public class KeyEventHandler {
 			Minecraft mc = Minecraft.getMinecraft();
 			MovingObjectPosition pos = mc.thePlayer.rayTrace(100, 0);
 			if (pos.typeOfHit.equals(MovingObjectType.BLOCK)) {
-				CSTELogger.logDebug("Hit Block: " + CSTEProcessor.posToStr(pos.getBlockPos()));
-				CSTE.processor.onBlockActivated(mc.thePlayer, pos.getBlockPos());
+				CSTELogger.logDebug("Hit Block: " + CSTESelectionProcessor.posToStr(pos.getBlockPos()));
+				CSTE.brushProcessor.onBrushActivated(mc.thePlayer, pos.getBlockPos());
 			}
 		}
 	}

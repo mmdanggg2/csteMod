@@ -12,7 +12,7 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 
-public class CommandMode extends CommandBase {
+public class CommandBrushMode extends CommandBase {
 
 	@Override
 	public String getName() {

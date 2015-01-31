@@ -31,7 +31,9 @@ public class CSTE {
 	@SidedProxy(clientSide = CSTEInfo.CLIENTPROXY, serverSide = CSTEInfo.COMMONPROXY)
 	public static CommonProxy proxy;
 	
-	public static CSTEProcessor processor;
+	public static CSTESelectionProcessor selProcessor;
+	
+	public static CSTEBrushProcessor brushProcessor;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -71,7 +73,8 @@ public class CSTE {
 		if (event.getSide().isServer()) {
 			return;
 		}
-		CSTE.processor = new CSTEProcessor();
+		CSTE.selProcessor = new CSTESelectionProcessor();
+		CSTE.brushProcessor = new CSTEBrushProcessor();
 	}
 	
 	public static void updateConfig() {

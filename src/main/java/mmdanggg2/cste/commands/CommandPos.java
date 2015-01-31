@@ -45,10 +45,10 @@ public class CommandPos extends CommandBase {
 							throw new WrongUsageException("cste.commands.pos", new Object[0]);
 						}
 					}
-					result = CSTE.processor.onPosCommand(player, intArgs);
+					result = CSTE.selProcessor.onPosCommand(player, intArgs);
 				}
 				else if (args.length == 1) {
-					result = CSTE.processor.onPosCommand(args[0], player);
+					result = CSTE.selProcessor.onPosCommand(args[0], player);
 				}
 				else {
 					CSTELogger.logDebug("Incorrect num of args");

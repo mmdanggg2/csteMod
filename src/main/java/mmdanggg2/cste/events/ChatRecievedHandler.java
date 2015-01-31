@@ -31,6 +31,7 @@ public class ChatRecievedHandler {
 
 	@SubscribeEvent
 	public void handleEvent(ClientChatReceivedEvent event) {
+		//TODO put in all failure chat events
 		if (event.type == 1 && building) {
 			CSTELogger.logDebug("System message recieved: " + event.message.getUnformattedText());
 			if (event.message.getUnformattedText().equals(I18n.format("commands.fill.outOfWorld"))) {
@@ -54,6 +55,16 @@ public class ChatRecievedHandler {
 				event.setCanceled(true);
 			}
 			else if (event.message.getUnformattedText().contains(I18n.format("commands.fill.failed"))) {
+				messagesGathered++;
+				event.setCanceled(true);
+			}
+			else if (event.message.getUnformattedText().contains(I18n.format("commands.setblock.noChange"))) {
+				messagesGathered++;
+				event.setCanceled(true);
+			}
+			else if (event.message.getUnformattedText().contains(I18n.format("commands.setblock.success"))) {
+				blocksChanged++;
+				CSTELogger.logDebug("1 block changed, total: " + blocksChanged);
 				messagesGathered++;
 				event.setCanceled(true);
 			}
@@ -135,6 +146,6 @@ public class ChatRecievedHandler {
 	}
 	
 	private enum ErrorType {
-		OUTOFWORLD, TAGERROR, TOOMANYBLOCKS, BLOCKNOTFOUND
+		OUTOFWORLD, TAGERROR, TOOMANYBLOCKS, BLOCKNOTFOUND, COULDNTPLACE
 	}
 }

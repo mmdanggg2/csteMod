@@ -6,7 +6,7 @@ import mmdanggg2.cste.commands.CommandFill;
 import mmdanggg2.cste.commands.CommandMode;
 import mmdanggg2.cste.commands.CommandPos;
 import mmdanggg2.cste.commands.CommandWand;
-import mmdanggg2.cste.render.RenderSelection;
+import mmdanggg2.cste.render.CSTERenderer;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -14,7 +14,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void registerRenderers() {
-		MinecraftForge.EVENT_BUS.register(new RenderSelection());
+		MinecraftForge.EVENT_BUS.register(new CSTERenderer());
 	}
 	
 	@Override
