@@ -16,25 +16,25 @@ public class CommandBrushMode extends CommandBase {
 
 	@Override
 	public String getName() {
-		return "cste-fillmode";
+		return "cste-brushmode";
 	}
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return I18n.format("cste.commands.selmode");
+		return I18n.format("cste.commands.brushmode");
 	}
 
 	@Override
 	public void execute(ICommandSender sender, String[] args) throws CommandException {
-		CSTELogger.logDebug("Mode Command Recieved!");
+		CSTELogger.logDebug("Brush mode Command Recieved!");
 		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
 			if (!(args.length < 1)) {
-				CSTE.selProcessor.onModeCommand(player, args);
+				CSTE.brushProcessor.onModeCommand(player, args);
 			}
 			else {
 				CSTELogger.logDebug("No args were given.");
-				throw new WrongUsageException("cste.commands.selmode", new Object[0]);
+				throw new WrongUsageException("cste.commands.brushmode", new Object[0]);
 			}
 		}
 	}
@@ -44,7 +44,7 @@ public class CommandBrushMode extends CommandBase {
 		return 0;
 	}
 	
-	public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+	public List<?> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         if(args.length == 1) {
         	return getListOfStringsMatchingLastWord(args, new String[] {"solid", "hollow", "frame"});

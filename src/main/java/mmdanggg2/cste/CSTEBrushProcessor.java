@@ -13,11 +13,18 @@ import net.minecraft.util.ChatComponentTranslation;
 
 public class CSTEBrushProcessor {
 	public Item brush = null;
+	private int radius = 0;
+	private String block = ""; //String containing the block name and data tags
 	private BrushMode brushMode = BrushMode.FILL;
 	private List<String> commands = new ArrayList<String>();
 
 	public void onBrushActivated(EntityPlayerSP player, BlockPos pos) {
-		makeSphere(player, pos, "stone", 3, false);
+		if (brushMode.equals(BrushMode.FILL)) {
+			makeSphere(player, pos, block, radius, true);
+		}
+		else if (brushMode.equals(BrushMode.HOLLOWFILL)) {
+			makeSphere(player, pos, block, radius, false);
+		}
 	}
 
 	public void onModeCommand(EntityPlayer player, String[] args) {
