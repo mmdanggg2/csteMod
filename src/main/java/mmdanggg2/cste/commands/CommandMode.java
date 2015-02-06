@@ -30,7 +30,7 @@ public class CommandMode extends CommandBase {
 		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
 			if (!(args.length < 1)) {
-				CSTE.selProcessor.onModeCommand(player, args);
+				CSTE.selProcessor.onModeCommand(args);
 			}
 			else {
 				CSTELogger.logDebug("No args were given.");

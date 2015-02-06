@@ -11,12 +11,12 @@ import mmdanggg2.cste.events.ChatRecievedHandler;
 import mmdanggg2.cste.selections.SelectionCube;
 import mmdanggg2.cste.util.BlockDelta;
 import mmdanggg2.cste.util.CSTELogger;
+import mmdanggg2.cste.util.ChatMessenger;
 import net.minecraft.block.Block;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class CSTEBrushProcessor {
@@ -27,32 +27,42 @@ public class CSTEBrushProcessor {
 	private List<String> commands = new ArrayList<String>();
 
 	public void onBrushActivated(EntityPlayerSP player, BlockPos pos) {
-		if (brushMode.equals(BrushMode.FILL)) {
-			CSTELogger.logDebug("Brush fill");
-			makeSphere(player, pos, block, radius, true);
-		}
-		else if (brushMode.equals(BrushMode.HOLLOWFILL)) {
-			CSTELogger.logDebug("Brush hollow fill");
-			makeSphere(player, pos, block, radius, false);
+		if (radius < 1) {
+			ChatMessenger.addMessageLocalized("cste.commands.brush.smallrad", EnumChatFormatting.RED);
 		}
 		else if (brushMode.equals(BrushMode.SMOOTH)) {
 			CSTELogger.logDebug("Brush smooth");
-			smoothArea(player, pos, block, radius);
+			smoothArea(pos, radius);
+		}
+		else {
+			if (block.isEmpty()) {
+				ChatMessenger.addMessageLocalized("cste.commands.brush.noblock", EnumChatFormatting.RED);
+			}
+			else {
+				if (brushMode.equals(BrushMode.FILL)) {
+					CSTELogger.logDebug("Brush fill");
+					makeSphere(pos, block, radius, true);
+				}
+				else if (brushMode.equals(BrushMode.HOLLOWFILL)) {
+					CSTELogger.logDebug("Brush hollow fill");
+					makeSphere(pos, block, radius, false);
+				}
+			}
 		}
 	}
 
-	public void onModeCommand(EntityPlayer player, String[] args) {
+	public void onModeCommand(String[] args) {
 		for (BrushMode mode : BrushMode.values()) {
 			CSTELogger.logDebug("Checking " + mode.name );
 			if (args[0].equalsIgnoreCase(mode.getName())) {
 				CSTELogger.logDebug("Match, setting mode.");
 				setBrushMode(mode);
-				player.addChatMessage(new ChatComponentTranslation("cste.commands.brushmode.success", args[0]));
+				ChatMessenger.addMessageLocalized("cste.commands.brushmode.success", args[0]);
 				return;
 			}
 		}
 		CSTELogger.logDebug("No match found!");
-		player.addChatMessage(new ChatComponentTranslation("cste.commands.brushmode.badarg"));
+		ChatMessenger.addMessageLocalized("cste.commands.brushmode.badarg");
 	}
 	
 	/**
@@ -60,13 +70,12 @@ public class CSTEBrushProcessor {
      * 
      * Modified from WorldEdit
      * 
-	 * @param player the player to send the commands through
-     * @param pos Center of the sphere
+	 * @param pos Center of the sphere
      * @param block the Block and data string
      * @param radius the radius
      * @param filled If false, only a shell will be generated.
      */
-    public void makeSphere(EntityPlayerSP player, BlockPos pos, String block, double radius, boolean filled) {
+    private void makeSphere(BlockPos pos, String block, double radius, boolean filled) {
     	
     	commands.clear();
     	
@@ -118,10 +127,18 @@ public class CSTEBrushProcessor {
             }
         }
         
-        sendCommands(player);
+        sendCommands();
     }
 
-	private void smoothArea(EntityPlayerSP player, BlockPos pos, String block, int radius) {
+	/**
+	 * Smooths an area
+	 * 
+	 * Modified from WorldEdit
+	 * 
+	 * @param pos
+	 * @param radius
+	 */
+	private void smoothArea(BlockPos pos, int radius) {
 		BlockPos min = new BlockPos(pos.add(-radius, -radius, -radius));
 		BlockPos max = pos.add(radius, radius + 10, radius);
 		CSTELogger.logDebug("posMin = " + min + ", posMax = " + max);
@@ -141,7 +158,7 @@ public class CSTEBrushProcessor {
 			}
 		}
 		
-		sendCommands(player);
+		sendCommands();
 	}
 
 	private void setBrushMode(BrushMode mode) {
@@ -152,10 +169,10 @@ public class CSTEBrushProcessor {
 		commands.add("/setblock " + CSTESelectionProcessor.posToStr(pos) + " " + block);
 	}
 	
-	private void sendCommands(EntityPlayerSP player) {
-		ChatRecievedHandler.instance.buildingStart(commands.size(), player);
+	private void sendCommands() {
+		ChatRecievedHandler.instance.buildingStart(commands.size());
 		for (String command : commands) {
-			player.sendChatMessage(command);
+			ChatMessenger.sendMessage(command);
 		}
 		commands.clear();
 	}

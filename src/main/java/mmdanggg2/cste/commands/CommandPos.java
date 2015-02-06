@@ -9,7 +9,6 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 
 import org.apache.commons.lang3.StringUtils;
@@ -29,43 +28,40 @@ public class CommandPos extends CommandBase {
 	@Override
 	public void execute(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Pos Command Recieved!");
-		if (sender instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender;
-			if (!(args.length < 1)) {
-				int result = 0;
-				if (args.length == 4) {
-					int[] intArgs = new int[4];
-					for (int i = 0 ; i < 4 ; i++) {
-						String str = args[i];
-						if (StringUtils.isNumeric(str)) {
-							intArgs[i] = Integer.parseInt(str);
-						}
-						else {
-							CSTELogger.logDebug("Args given were not ints");
-							throw new WrongUsageException("cste.commands.pos", new Object[0]);
-						}
+		if (!(args.length < 1)) {
+			int result = 0;
+			if (args.length == 4) {
+				int[] intArgs = new int[4];
+				for (int i = 0 ; i < 4 ; i++) {
+					String str = args[i];
+					if (StringUtils.isNumeric(str)) {
+						intArgs[i] = Integer.parseInt(str);
 					}
-					result = CSTE.selProcessor.onPosCommand(player, intArgs);
-				}
-				else if (args.length == 1) {
-					result = CSTE.selProcessor.onPosCommand(args[0], player);
-				}
-				else {
-					CSTELogger.logDebug("Incorrect num of args");
-					throw new WrongUsageException("cste.commands.pos", new Object[0]);
-				}
-				switch (result) {
-				case 0:	return;
-				case 1:	CSTELogger.logDebug("Arg not \"clear\" or int");
+					else {
+						CSTELogger.logDebug("Args given were not ints");
 						throw new WrongUsageException("cste.commands.pos", new Object[0]);
-				case 2: CSTELogger.logDebug("Invalid pos number");
-						throw new CommandException("cste.commands.pos.invalidnum", args[0]);
+					}
 				}
+				result = CSTE.selProcessor.onPosCommand(intArgs);
+			}
+			else if (args.length == 1) {
+				result = CSTE.selProcessor.onPosCommand(args[0]);
 			}
 			else {
-				CSTELogger.logDebug("No args were given.");
+				CSTELogger.logDebug("Incorrect num of args");
 				throw new WrongUsageException("cste.commands.pos", new Object[0]);
 			}
+			switch (result) {
+			case 0:	return;
+			case 1:	CSTELogger.logDebug("Arg not \"clear\" or int");
+					throw new WrongUsageException("cste.commands.pos", new Object[0]);
+			case 2: CSTELogger.logDebug("Invalid pos number");
+					throw new CommandException("cste.commands.pos.invalidnum", args[0]);
+			}
+		}
+		else {
+			CSTELogger.logDebug("No args were given.");
+			throw new WrongUsageException("cste.commands.pos", new Object[0]);
 		}
 	}
 

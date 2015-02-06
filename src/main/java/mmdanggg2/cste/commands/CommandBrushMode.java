@@ -30,7 +30,7 @@ public class CommandBrushMode extends CommandBase {
 		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
 			if (!(args.length < 1)) {
-				CSTE.brushProcessor.onModeCommand(player, args);
+				CSTE.brushProcessor.onModeCommand(args);
 			}
 			else {
 				CSTELogger.logDebug("No args were given.");

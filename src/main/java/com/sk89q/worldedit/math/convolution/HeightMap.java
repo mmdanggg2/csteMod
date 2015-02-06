@@ -45,9 +45,7 @@ public class HeightMap {
     /**
      * Constructs the HeightMap
      *
-     * @param session an edit session
      * @param selection the region
-     * @param naturalOnly ignore non-natural blocks
      */
     public HeightMap(SelectionCube sel) {
         checkNotNull(sel);
@@ -76,8 +74,7 @@ public class HeightMap {
      * 
      * @param filter the filter
      * @param iterations the number of iterations
-     * @return number of blocks affected
-     * @throws MaxChangedBlocksException
+     * @return list of block deltas
      */
 
     public List<BlockDelta> applyFilter(HeightMapFilter filter, int iterations) {
@@ -97,8 +94,7 @@ public class HeightMap {
      * Apply a raw heightmap to the region
      * 
      * @param data the data
-     * @return number of blocks affected
-     * @throws MaxChangedBlocksException
+     * @return list of block deltas
      */
 
     public List<BlockDelta> apply(int[] data) {

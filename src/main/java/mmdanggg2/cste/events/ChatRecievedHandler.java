@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mmdanggg2.cste.util.CSTELogger;
+import mmdanggg2.cste.util.ChatMessenger;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -22,7 +20,6 @@ public class ChatRecievedHandler {
 	private int messagesNeeded = 0;
 	private int messagesGathered = 0;
 	private boolean building;
-	private EntityPlayer player;
 	public static ChatRecievedHandler instance;
 
 	public ChatRecievedHandler() {
@@ -81,11 +78,9 @@ public class ChatRecievedHandler {
 			CSTELogger.logDebug(messagesGathered + " messages gathered.");
 			if (messagesGathered >= messagesNeeded) {
 				if (error) {
-					IChatComponent errorMessage = new ChatComponentText(getError());
-					errorMessage.getChatStyle().setColor(EnumChatFormatting.RED);
-					player.addChatMessage(errorMessage);
+					ChatMessenger.addMessage(getError(), EnumChatFormatting.RED);
 				}
-				player.addChatMessage(new ChatComponentText(getChanged()));
+				ChatMessenger.addMessage(getChanged());
 				clearAll();
 			}
 		}
@@ -139,10 +134,9 @@ public class ChatRecievedHandler {
 		return str;
 	}
 	
-	public void buildingStart(int numResults, EntityPlayer player) {
+	public void buildingStart(int numResults) {
 		building = true;
 		messagesNeeded = numResults;
-		this.player = player;
 	}
 	
 	private enum ErrorType {

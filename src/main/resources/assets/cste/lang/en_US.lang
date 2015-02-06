@@ -30,6 +30,8 @@ cste.commands.brush.help=/cste-brush [clear] - selects and clears the brush.
 cste.commands.brush.sel=%s is now the brush.
 cste.commands.brush.clear=Brush cleared.
 cste.commands.brush.noitem=No item in hand.
+cste.commands.brush.smallrad=The radius must be at least 1.
+cste.commands.brush.noblock=No block was selected.
 
 cste.keybinding.category=CSTE Keybindings
 cste.keybinding.usebrush=Use brush

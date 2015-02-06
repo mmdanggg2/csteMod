@@ -2,14 +2,10 @@ package mmdanggg2.cste;
 
 import mmdanggg2.cste.events.ChatRecievedHandler;
 import mmdanggg2.cste.util.CSTELogger;
+import mmdanggg2.cste.util.ChatMessenger;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,18 +15,18 @@ public class CSTESelectionProcessor {
 	public Item wand = null;
 	private BuildMode buildMode = BuildMode.SOLIDCUBE;
 
-	public void onBlockActivated(EntityPlayer player, BlockPos pos) {
-		player.addChatMessage(new ChatComponentText("Pos" + (currPos+1) + " = " + posToStr(pos)));
+	public void onBlockActivated(BlockPos pos) {
+		ChatMessenger.addMessage("Pos" + (currPos+1) + " = " + posToStr(pos));
 		setPosInc(pos);
 	}
 	
-	public void onFillCommand(EntityPlayer player, String[] args) {
+	public void onFillCommand(String[] args) {
 		if (hasSelection()) {
 			String argStr = StringUtils.join(args, " ");
 			if (buildMode == BuildMode.SOLIDCUBE) {
-				buildingStart(1, player);
+				buildingStart(1);
 				String command = "/fill " + posToStr(positions[0]) + " " + posToStr(positions[1]) + " " + argStr;
-				Minecraft.getMinecraft().thePlayer.sendChatMessage(command);
+				ChatMessenger.sendMessage(command);
 				return;
 			}
 			else if (buildMode == BuildMode.HOLLOWCUBE) {
@@ -41,15 +37,13 @@ public class CSTESelectionProcessor {
 				int y2 = positions[1].getY();
 				int z2 = positions[1].getZ();
 				
-				EntityPlayerSP mcPlayer = Minecraft.getMinecraft().thePlayer;
-				
-				buildingStart(6, player);
-				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x1 + " " + y2 + " " + z2 + " " + argStr);
-				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x2 + " " + y1 + " " + z2 + " " + argStr);
-				mcPlayer.sendChatMessage("/fill " + posToStr(positions[0]) + " " + x2 + " " + y2 + " " + z1 + " " + argStr);
-				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x2 + " " + y1 + " " + z1 + " " + argStr);
-				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x1 + " " + y2 + " " + z1 + " " + argStr);
-				mcPlayer.sendChatMessage("/fill " + posToStr(positions[1]) + " " + x1 + " " + y1 + " " + z2 + " " + argStr);
+				buildingStart(6);
+				ChatMessenger.sendMessage("/fill " + posToStr(positions[0]) + " " + x1 + " " + y2 + " " + z2 + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + posToStr(positions[0]) + " " + x2 + " " + y1 + " " + z2 + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + posToStr(positions[0]) + " " + x2 + " " + y2 + " " + z1 + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + posToStr(positions[1]) + " " + x2 + " " + y1 + " " + z1 + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + posToStr(positions[1]) + " " + x1 + " " + y2 + " " + z1 + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + posToStr(positions[1]) + " " + x1 + " " + y1 + " " + z2 + " " + argStr);
 				return;
 			}
 			else if (buildMode == BuildMode.FRAME) {
@@ -60,51 +54,49 @@ public class CSTESelectionProcessor {
 				int y2 = positions[1].getY();
 				int z2 = positions[1].getZ();
 				
-				EntityPlayerSP mcPlayer = Minecraft.getMinecraft().thePlayer;
-				
-				buildingStart(12, player);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x2,y1,z1}, ' ') + " " + argStr);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x1,y2,z1}, ' ') + " " + argStr);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x1,y1,z2}, ' ') + " " + argStr);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x2,y1,z1,x2,y1,z2}, ' ') + " " + argStr);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x2,y1,z1,x2,y2,z1}, ' ') + " " + argStr);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y2,z1,x1,y2,z2}, ' ') + " " + argStr);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y2,z1,x2,y2,z1}, ' ') + " " + argStr);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z2,x1,y2,z2}, ' ') + " " + argStr);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x1,y1,z2,x2,y1,z2}, ' ') + " " + argStr);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x1,y2,z2}, ' ') + " " + argStr);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x2,y1,z2}, ' ') + " " + argStr);
-				mcPlayer.sendChatMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x2,y2,z1}, ' ') + " " + argStr);
+				buildingStart(12);
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x2,y1,z1}, ' ') + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x1,y2,z1}, ' ') + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x1,y1,z2}, ' ') + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x2,y1,z1,x2,y1,z2}, ' ') + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x2,y1,z1,x2,y2,z1}, ' ') + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y2,z1,x1,y2,z2}, ' ') + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y2,z1,x2,y2,z1}, ' ') + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y1,z2,x1,y2,z2}, ' ') + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y1,z2,x2,y1,z2}, ' ') + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x1,y2,z2}, ' ') + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x2,y1,z2}, ' ') + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x2,y2,z1}, ' ') + " " + argStr);
 				return;
 			}
 		}
 		else {
-			player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.fill.nosel")));
+			ChatMessenger.addMessageLocalized("cste.commands.fill.nosel");
 			return;
 		}
-		player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.fill.nomode")));
+		ChatMessenger.addMessageLocalized("cste.commands.fill.nomode");
 	}
 
-	public void onModeCommand(EntityPlayer player, String[] args) {
+	public void onModeCommand(String[] args) {
 		for (BuildMode mode : BuildMode.values()) {
 			CSTELogger.logDebug("Checking " + mode.name );
 			if (args[0].equalsIgnoreCase(mode.getName())) {
 				CSTELogger.logDebug("Match, setting mode.");
 				setBuildMode(mode);
-				player.addChatMessage(new ChatComponentTranslation("cste.commands.selmode.success", args[0]));
+				ChatMessenger.addMessageLocalized("cste.commands.selmode.success", args[0]);
 				return;
 			}
 		}
 		CSTELogger.logDebug("No match found!");
-		player.addChatMessage(new ChatComponentTranslation("cste.commands.selmode.badarg"));
+		ChatMessenger.addMessageLocalized("cste.commands.selmode.badarg");
 	}
 	
-	public int onPosCommand(EntityPlayer player, int[] args) {
+	public int onPosCommand(int[] args) {
 		int posNum = args[0] - 1; 
 		if (posNum <= positions.length-1 && posNum > -1) {
 			BlockPos pos = new BlockPos(args[1], args[2], args[3]);
 			positions[posNum] = pos;
-			player.addChatMessage(new ChatComponentTranslation("cste.commands.pos.posset", args[0], posToStr(pos)));
+			ChatMessenger.addMessageLocalized("cste.commands.pos.posset", args[0], posToStr(pos));
 			return 0;
 		}
 		else {
@@ -112,17 +104,17 @@ public class CSTESelectionProcessor {
 		}
 	}
 	
-	public int onPosCommand(String arg, EntityPlayer player) {
+	public int onPosCommand(String arg) {
 		if (arg.equalsIgnoreCase("clear")) {
 			clearPos();
-			player.addChatMessage(new ChatComponentTranslation("cste.commands.pos.clear"));
+			ChatMessenger.addMessageLocalized("cste.commands.pos.clear");
 			return 0;
 		}
 		else if (StringUtils.isNumeric(arg)) {
 			int posNum = Integer.parseInt(arg) - 1;
 			if (posNum <= positions.length-1 && posNum > -1) {
-				positions[posNum] = player.getPosition();
-				player.addChatMessage(new ChatComponentTranslation("cste.commands.pos.posset", arg, posToStr(player.getPosition())));
+				positions[posNum] = Minecraft.getMinecraft().thePlayer.getPosition();
+				ChatMessenger.addMessageLocalized("cste.commands.pos.posset", arg, posToStr(positions[posNum]));
 				return 0;
 			}
 			else {
@@ -166,8 +158,8 @@ public class CSTESelectionProcessor {
 		return str;
 	}
 
-	private void buildingStart(int numResults, EntityPlayer player) {
-		ChatRecievedHandler.instance.buildingStart(numResults, player);
+	private void buildingStart(int numResults) {
+		ChatRecievedHandler.instance.buildingStart(numResults);
 	}
 	
 	public boolean hasSelection() {
