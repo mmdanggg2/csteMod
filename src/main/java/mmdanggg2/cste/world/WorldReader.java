@@ -37,7 +37,7 @@ public class WorldReader {
 		for (int y = maxY; y >= minY; --y) {
 			BlockPos pos = new BlockPos(x, y, z);
 			Block block = getBlock(pos);
-			if (!block.isCollidable()) {
+			if (!block.isReplaceable(Minecraft.getMinecraft().theWorld, pos)) {
 				return y;
 			}
 		}

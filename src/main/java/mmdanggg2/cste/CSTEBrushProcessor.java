@@ -3,13 +3,21 @@ package mmdanggg2.cste;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sk89q.worldedit.math.convolution.GaussianKernel;
+import com.sk89q.worldedit.math.convolution.HeightMap;
+import com.sk89q.worldedit.math.convolution.HeightMapFilter;
+
 import mmdanggg2.cste.events.ChatRecievedHandler;
+import mmdanggg2.cste.selections.SelectionCube;
+import mmdanggg2.cste.util.BlockDelta;
 import mmdanggg2.cste.util.CSTELogger;
+import net.minecraft.block.Block;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ResourceLocation;
 
 public class CSTEBrushProcessor {
 	public Item brush = null;
@@ -20,10 +28,16 @@ public class CSTEBrushProcessor {
 
 	public void onBrushActivated(EntityPlayerSP player, BlockPos pos) {
 		if (brushMode.equals(BrushMode.FILL)) {
+			CSTELogger.logDebug("Brush fill");
 			makeSphere(player, pos, block, radius, true);
 		}
 		else if (brushMode.equals(BrushMode.HOLLOWFILL)) {
+			CSTELogger.logDebug("Brush hollow fill");
 			makeSphere(player, pos, block, radius, false);
+		}
+		else if (brushMode.equals(BrushMode.SMOOTH)) {
+			CSTELogger.logDebug("Brush smooth");
+			smoothArea(player, pos, block, radius);
 		}
 	}
 
@@ -107,6 +121,29 @@ public class CSTEBrushProcessor {
         sendCommands(player);
     }
 
+	private void smoothArea(EntityPlayerSP player, BlockPos pos, String block, int radius) {
+		BlockPos min = new BlockPos(pos.add(-radius, -radius, -radius));
+		BlockPos max = pos.add(radius, radius + 10, radius);
+		CSTELogger.logDebug("posMin = " + min + ", posMax = " + max);
+		SelectionCube selection = new SelectionCube(min, max);
+		HeightMap heightMap = new HeightMap(selection);
+		HeightMapFilter filter = new HeightMapFilter(new GaussianKernel(5, 1.0));
+		List<BlockDelta> changed = heightMap.applyFilter(filter, 4);
+		
+		CSTELogger.logDebug("Blocks changing: " + changed.size());
+		
+    	commands.clear();
+		for (BlockDelta bd : changed) {
+			if (bd.isChanged()){
+				ResourceLocation blockName = (ResourceLocation) Block.blockRegistry.getNameForObject(bd.getBlock());
+				//CSTELogger.logDebug("Block change: " + bd.getPos().toString() + ", " + blockName);
+				setBlockComp(bd.getPos(), blockName.toString());
+			}
+		}
+		
+		sendCommands(player);
+	}
+
 	private void setBrushMode(BrushMode mode) {
 		brushMode = mode;
 	}
@@ -128,7 +165,7 @@ public class CSTEBrushProcessor {
 	}
 	
 	private enum BrushMode {
-		FILL("fill"), HOLLOWFILL("hollow");
+		FILL("fill"), HOLLOWFILL("hollow"), SMOOTH("smooth");
 		
 		private String name;
 

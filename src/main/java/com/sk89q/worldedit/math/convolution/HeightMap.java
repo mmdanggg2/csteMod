@@ -19,14 +19,14 @@
 
 package com.sk89q.worldedit.math.convolution;
 
+import java.util.ArrayList;
+import java.util.List;
 import mmdanggg2.cste.selections.SelectionCube;
+import mmdanggg2.cste.util.BlockDelta;
 import mmdanggg2.cste.world.WorldReader;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.util.BlockPos;
-
-import com.sk89q.worldedit.EditSession;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -80,7 +80,7 @@ public class HeightMap {
      * @throws MaxChangedBlocksException
      */
 
-    public String[] applyFilter(HeightMapFilter filter, int iterations) {
+    public List<BlockDelta> applyFilter(HeightMapFilter filter, int iterations) {
         checkNotNull(filter);
 
         int[] newData = new int[data.length];
@@ -101,7 +101,7 @@ public class HeightMap {
      * @throws MaxChangedBlocksException
      */
 
-    public String[] apply(int[] data) {
+    public List<BlockDelta> apply(int[] data) {
         checkNotNull(data);
 
         BlockPos minY = selection.getSmallestCoord();
@@ -111,7 +111,7 @@ public class HeightMap {
 
         int maxY = selection.getLargestCoord().getY();
 
-        int blocksChanged = 0;
+        List<BlockDelta> blocksChanged = new ArrayList<BlockDelta>();
 
         // Apply heightmap
         for (int z = 0; z < height; ++z) {
@@ -136,33 +136,28 @@ public class HeightMap {
 
                     // Skip water/lava
                     if (!(existing instanceof BlockLiquid)) {
-                        session.setBlock(new BlockPos(xr, newHeight, zr), existing);
-                        ++blocksChanged;
+                        addBlock(new BlockPos(xr, newHeight, zr), existing, blocksChanged);
 
                         // Grow -- start from 1 below top replacing airblocks
                         for (int y = newHeight - 1 - originY; y >= 0; --y) {
                             int copyFrom = (int) (y * scale);
-                            session.setBlock(new BlockPos(xr, originY + y, zr), session.getBlock(new BlockPos(xr, originY + copyFrom, zr)));
-                            ++blocksChanged;
+                            addBlock(new BlockPos(xr, originY + y, zr), WorldReader.getBlock(new BlockPos(xr, originY + copyFrom, zr)), blocksChanged);
                         }
                     }
                 } else if (curHeight > newHeight) {
                     // Shrink -- start from bottom
                     for (int y = 0; y < newHeight - originY; ++y) {
                         int copyFrom = (int) (y * scale);
-                        session.setBlock(new BlockPos(xr, originY + y, zr), session.getBlock(new BlockPos(xr, originY + copyFrom, zr)));
-                        ++blocksChanged;
+                        addBlock(new BlockPos(xr, originY + y, zr), WorldReader.getBlock(new BlockPos(xr, originY + copyFrom, zr)), blocksChanged);
                     }
 
                     // Set the top block of the column to be the same type
                     // (this could otherwise go wrong with rounding)
-                    session.setBlock(new BlockPos(xr, newHeight, zr), session.getBlock(new BlockPos(xr, curHeight, zr)));
-                    ++blocksChanged;
+                    addBlock(new BlockPos(xr, newHeight, zr), WorldReader.getBlock(new BlockPos(xr, curHeight, zr)), blocksChanged);
 
                     // Fill rest with air
                     for (int y = newHeight + 1; y <= curHeight; ++y) {
-                        session.setBlock(new BlockPos(xr, y, zr), fillerAir);
-                        ++blocksChanged;
+                        addBlock(new BlockPos(xr, y, zr), Block.getBlockFromName("air"), blocksChanged);
                     }
                 }
             }
@@ -172,5 +167,9 @@ public class HeightMap {
 
         return blocksChanged;
     }
+
+	private void addBlock(BlockPos blockPos, Block block, List<BlockDelta> blocksChanged) {
+		blocksChanged.add(new BlockDelta(blockPos, block));
+	}
 
 }
