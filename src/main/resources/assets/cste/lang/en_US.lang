@@ -38,6 +38,9 @@ cste.commands.brushmode.help=/cste-brushmode [fill|hollow|smooth] [radius] [bloc
 cste.commands.brushmode.success=Brush changed to %s.
 cste.commands.brushmode.badmode=Invalid mode.
 cste.commands.brushmode.badrad=Radius must be a number above 0.
+cste.commands.brushmode.largerad=Radius is very large, this WILL cause a lot of lag.
+cste.commands.brushmode.vlargerad=RADIUS IS HUGE, THIS WILL CAUSE EXTREME LAG, USE IT SPARINGLY.
+cste.commands.brushmode.radtoolarge=I'm sorry, %s. I'm afraid I can't do that.
 cste.commands.brushmode.info=Brush is currently: %s.
 
 cste.keybinding.category=CSTE Keybindings

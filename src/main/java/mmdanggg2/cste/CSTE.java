@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 
 import mmdanggg2.cste.events.ChatRecievedHandler;
 import mmdanggg2.cste.events.KeyEventHandler;
+import mmdanggg2.cste.events.MouseEventHandler;
 import mmdanggg2.cste.events.PlayerInteractEventHandler;
 import mmdanggg2.cste.util.CSTELogger;
 import net.minecraftforge.common.MinecraftForge;
@@ -66,6 +67,7 @@ public class CSTE {
 		FMLCommonHandler.instance().bus().register(new KeyEventHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHandler());
 		MinecraftForge.EVENT_BUS.register(new ChatRecievedHandler());
+		MinecraftForge.EVENT_BUS.register(new MouseEventHandler());
 	}
 	
 	@EventHandler

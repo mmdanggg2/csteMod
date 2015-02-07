@@ -16,6 +16,7 @@ import mmdanggg2.cste.util.BlockDelta;
 import mmdanggg2.cste.util.CSTELogger;
 import mmdanggg2.cste.util.ChatMessenger;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
@@ -88,7 +89,17 @@ public class CSTEBrushProcessor {
 						ChatMessenger.addMessageLocalized("cste.commands.brushmode.badrad", EnumChatFormatting.RED);
 						return;
 					}
+					else if (rad > 100) {
+						ChatMessenger.addMessageLocalized("cste.commands.brushmode.radtoolarge", EnumChatFormatting.RED, Minecraft.getMinecraft().thePlayer.getName());
+						return;
+					}
 					else {
+						if (rad > 40) {
+							ChatMessenger.addMessageLocalized("cste.commands.brushmode.vlargerad", EnumChatFormatting.RED);
+						}
+						else if (rad > 20) {
+							ChatMessenger.addMessageLocalized("cste.commands.brushmode.largerad", EnumChatFormatting.RED);
+						}
 						radius = rad;
 					}
 				}
