@@ -70,7 +70,7 @@ public class CommandPos extends CommandBase {
 		return 0;
 	}
 	
-	public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+	public List<?> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		if (args.length > 1 && args.length <= 4) {
 			return func_175771_a(args, 0, pos);
 		}

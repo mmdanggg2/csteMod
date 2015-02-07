@@ -10,7 +10,6 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 
 public class CommandFill extends CommandBase {
@@ -28,15 +27,12 @@ public class CommandFill extends CommandBase {
 	@Override
 	public void execute(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Fill Command Recieved!");
-		if (sender instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender;
-			if (!(args.length < 1)) {
-				CSTE.selProcessor.onFillCommand(args);
-			}
-			else {
-				CSTELogger.logDebug("No args were given.");
-				throw new WrongUsageException("cste.commands.fill", new Object[0]);
-			}
+		if (!(args.length < 1)) {
+			CSTE.selProcessor.onFillCommand(args);
+		}
+		else {
+			CSTELogger.logDebug("No args were given.");
+			throw new WrongUsageException("cste.commands.fill", new Object[0]);
 		}
 	}
 
@@ -45,7 +41,7 @@ public class CommandFill extends CommandBase {
 		return 0;
 	}
 
-    public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+    public List<?> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1) {
         	return func_175762_a(args, Block.blockRegistry.getKeys());

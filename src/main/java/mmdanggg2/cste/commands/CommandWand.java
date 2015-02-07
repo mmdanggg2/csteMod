@@ -4,6 +4,7 @@ import java.util.List;
 
 import mmdanggg2.cste.CSTE;
 import mmdanggg2.cste.util.CSTELogger;
+import mmdanggg2.cste.util.ChatMessenger;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -11,7 +12,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 
 public class CommandWand extends CommandBase {
 
@@ -33,17 +34,17 @@ public class CommandWand extends CommandBase {
 			if (args.length != 0 && args[0].equalsIgnoreCase("clear")) {
 				CSTELogger.logDebug("Clearing Wand");
 				CSTE.selProcessor.wand = null;
-				player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.wand.clear")));
+				ChatMessenger.addMessageLocalized("cste.commands.wand.clear");
 			}
 			else if (player.getHeldItem() != null) {
 				Item item = player.getHeldItem().getItem();
 				CSTELogger.logDebug("Setting Wand: " + item.getUnlocalizedName());
 				CSTE.selProcessor.wand = item;
-				player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.wand.sel", I18n.format(item.getUnlocalizedName() + ".name"))));
+				ChatMessenger.addMessageLocalized("cste.commands.wand.sel", I18n.format(item.getUnlocalizedName() + ".name"));
 			}
 			else {
 				CSTELogger.logDebug("Wand unchanged, hand was empty");
-				player.addChatMessage(new ChatComponentText(I18n.format("cste.commands.wand.noitem")));
+				ChatMessenger.addMessageLocalized("cste.commands.wand.noitem", EnumChatFormatting.RED);
 			}
 		}
 	}
@@ -53,7 +54,7 @@ public class CommandWand extends CommandBase {
 		return 0;
 	}
 	
-	public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+	public List<?> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         if(args.length == 1) {
         	return getListOfStringsMatchingLastWord(args, new String[] {"clear"});

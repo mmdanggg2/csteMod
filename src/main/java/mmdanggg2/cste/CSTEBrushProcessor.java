@@ -1,7 +1,10 @@
 package mmdanggg2.cste;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.sk89q.worldedit.math.convolution.GaussianKernel;
 import com.sk89q.worldedit.math.convolution.HeightMap;
@@ -21,8 +24,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class CSTEBrushProcessor {
 	public Item brush = null;
-	private int radius = 0;
-	private String block = ""; //String containing the block name and data tags
+	private int radius = 5;
+	private String block = "stone"; //String containing the block name and data tags
 	private BrushMode brushMode = BrushMode.FILL;
 	private List<String> commands = new ArrayList<String>();
 
@@ -52,17 +55,61 @@ public class CSTEBrushProcessor {
 	}
 
 	public void onModeCommand(String[] args) {
-		for (BrushMode mode : BrushMode.values()) {
-			CSTELogger.logDebug("Checking " + mode.name );
-			if (args[0].equalsIgnoreCase(mode.getName())) {
-				CSTELogger.logDebug("Match, setting mode.");
-				setBrushMode(mode);
-				ChatMessenger.addMessageLocalized("cste.commands.brushmode.success", args[0]);
-				return;
+		if (args.length == 0) {
+			if (brushMode.equals(BrushMode.SMOOTH)) {
+				String modeStr = StringUtils.join(new String[] {brushMode.getName(), Integer.toString(radius)}, ", ");
+				ChatMessenger.addMessageLocalized("cste.commands.brushmode.info", modeStr);
+			}
+			else {
+				String modeStr = StringUtils.join(new String[] {brushMode.getName(), Integer.toString(radius), block}, ", ");
+				ChatMessenger.addMessageLocalized("cste.commands.brushmode.info", modeStr);
 			}
 		}
-		CSTELogger.logDebug("No match found!");
-		ChatMessenger.addMessageLocalized("cste.commands.brushmode.badarg");
+		else {
+			if (args.length >= 1) {
+				boolean modeFound = false;
+				for (BrushMode mode : BrushMode.values()) {
+					CSTELogger.logDebug("Checking " + mode.name );
+					if (args[0].equalsIgnoreCase(mode.getName())) {
+						CSTELogger.logDebug("Match, setting mode.");
+						setBrushMode(mode);
+						modeFound = true;
+					}
+				}
+				if (!modeFound) {
+					CSTELogger.logDebug("No match found!");
+					ChatMessenger.addMessageLocalized("cste.commands.brushmode.badmode", EnumChatFormatting.RED);
+					return;
+				}
+			}
+			if (args.length >= 2) {
+				if (StringUtils.isNumeric(args[1])) {
+					int rad = Integer.parseInt(args[1]);
+					if (rad <= 0) {
+						ChatMessenger.addMessageLocalized("cste.commands.brushmode.badrad", EnumChatFormatting.RED);
+						return;
+					}
+					else {
+						radius = rad;
+					}
+				}
+				else {
+					ChatMessenger.addMessageLocalized("cste.commands.brushmode.badrad", EnumChatFormatting.RED);
+					return;
+				}
+			}
+			if (args.length >= 3 && !brushMode.equals(BrushMode.SMOOTH)) {
+				block = StringUtils.join(Arrays.copyOfRange(args, 2, args.length), " ");
+			}
+			if (brushMode.equals(BrushMode.SMOOTH)) {
+				String modeStr = StringUtils.join(new String[] {brushMode.getName(), Integer.toString(radius)}, ", ");
+				ChatMessenger.addMessageLocalized("cste.commands.brushmode.success", modeStr);
+			}
+			else {
+				String modeStr = StringUtils.join(new String[] {brushMode.getName(), Integer.toString(radius), block}, ", ");
+				ChatMessenger.addMessageLocalized("cste.commands.brushmode.success", modeStr);
+			}
+		}
 	}
 	
 	/**

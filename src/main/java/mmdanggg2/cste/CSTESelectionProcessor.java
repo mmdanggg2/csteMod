@@ -83,12 +83,12 @@ public class CSTESelectionProcessor {
 			if (args[0].equalsIgnoreCase(mode.getName())) {
 				CSTELogger.logDebug("Match, setting mode.");
 				setBuildMode(mode);
-				ChatMessenger.addMessageLocalized("cste.commands.selmode.success", args[0]);
+				ChatMessenger.addMessageLocalized("cste.commands.fillmode.success", args[0]);
 				return;
 			}
 		}
 		CSTELogger.logDebug("No match found!");
-		ChatMessenger.addMessageLocalized("cste.commands.selmode.badarg");
+		ChatMessenger.addMessageLocalized("cste.commands.fillmode.badarg");
 	}
 	
 	public int onPosCommand(int[] args) {

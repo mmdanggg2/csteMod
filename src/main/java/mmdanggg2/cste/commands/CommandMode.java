@@ -9,7 +9,6 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 
 public class CommandMode extends CommandBase {
@@ -21,21 +20,18 @@ public class CommandMode extends CommandBase {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return I18n.format("cste.commands.selmode");
+		return I18n.format("cste.commands.fillmode");
 	}
 
 	@Override
 	public void execute(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Mode Command Recieved!");
-		if (sender instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender;
-			if (!(args.length < 1)) {
-				CSTE.selProcessor.onModeCommand(args);
-			}
-			else {
-				CSTELogger.logDebug("No args were given.");
-				throw new WrongUsageException("cste.commands.selmode", new Object[0]);
-			}
+		if (!(args.length < 1)) {
+			CSTE.selProcessor.onModeCommand(args);
+		}
+		else {
+			CSTELogger.logDebug("No args were given.");
+			throw new WrongUsageException("cste.commands.fillmode", new Object[0]);
 		}
 	}
 
@@ -44,7 +40,7 @@ public class CommandMode extends CommandBase {
 		return 0;
 	}
 	
-	public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+	public List<?> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         if(args.length == 1) {
         	return getListOfStringsMatchingLastWord(args, new String[] {"solid", "hollow", "frame"});

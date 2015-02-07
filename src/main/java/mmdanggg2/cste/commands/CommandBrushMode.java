@@ -8,8 +8,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 
 public class CommandBrushMode extends CommandBase {
@@ -27,16 +25,7 @@ public class CommandBrushMode extends CommandBase {
 	@Override
 	public void execute(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Brush mode Command Recieved!");
-		if (sender instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) sender;
-			if (!(args.length < 1)) {
-				CSTE.brushProcessor.onModeCommand(args);
-			}
-			else {
-				CSTELogger.logDebug("No args were given.");
-				throw new WrongUsageException("cste.commands.brushmode", new Object[0]);
-			}
-		}
+		CSTE.brushProcessor.onModeCommand(args);
 	}
 
 	@Override
@@ -47,7 +36,7 @@ public class CommandBrushMode extends CommandBase {
 	public List<?> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         if(args.length == 1) {
-        	return getListOfStringsMatchingLastWord(args, new String[] {"solid", "hollow", "frame"});
+        	return getListOfStringsMatchingLastWord(args, new String[] {"fill", "hollow", "smooth"});
         }
         else {
         	return null;
