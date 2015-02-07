@@ -42,3 +42,4 @@ cste.commands.brushmode.info=Brush is currently: %s.
 
 cste.keybinding.category=CSTE Keybindings
 cste.keybinding.usebrush=Use brush
+cste.keybinding.usewand=Use wand
