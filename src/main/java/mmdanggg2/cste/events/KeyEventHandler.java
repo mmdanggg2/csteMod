@@ -17,10 +17,11 @@ public class KeyEventHandler {
 
 	// named indexes
 	public static final int USE_BRUSH = 0;
+	public static final int USE_WAND = 1;
 	// binding descriptions
-	private static final String[] desc = { "cste.keybinding.usebrush" };
+	private static final String[] desc = { "cste.keybinding.usebrush", "cste.keybinding.usewand" };
 	// binding defaults
-	private static final int[] keyValues = { Keyboard.KEY_R };
+	private static final int[] keyValues = { Keyboard.KEY_R, Keyboard.KEY_F };
 	private final KeyBinding[] keys;
 
 	public KeyEventHandler() {
@@ -40,7 +41,16 @@ public class KeyEventHandler {
 			MovingObjectPosition pos = mc.thePlayer.rayTrace(100, 0);
 			if (pos.typeOfHit.equals(MovingObjectType.BLOCK)) {
 				CSTELogger.logDebug("Hit Block: " + CSTESelectionProcessor.posToStr(pos.getBlockPos()));
-				CSTE.brushProcessor.onBrushActivated(mc.thePlayer, pos.getBlockPos());
+				CSTE.brushProcessor.onBrushActivated(pos.getBlockPos());
+			}
+		}
+		if (keys[USE_WAND].isPressed()) {
+			CSTELogger.logDebug("WAND KEY EVENT!!!!");
+			Minecraft mc = Minecraft.getMinecraft();
+			MovingObjectPosition pos = mc.thePlayer.rayTrace(100, 0);
+			if (pos.typeOfHit.equals(MovingObjectType.BLOCK)) {
+				CSTELogger.logDebug("Hit Block: " + CSTESelectionProcessor.posToStr(pos.getBlockPos()));
+				CSTE.selProcessor.onBlockActivated(pos.getBlockPos());
 			}
 		}
 	}

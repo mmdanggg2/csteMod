@@ -16,7 +16,6 @@ import mmdanggg2.cste.util.BlockDelta;
 import mmdanggg2.cste.util.CSTELogger;
 import mmdanggg2.cste.util.ChatMessenger;
 import net.minecraft.block.Block;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
@@ -29,7 +28,7 @@ public class CSTEBrushProcessor {
 	private BrushMode brushMode = BrushMode.FILL;
 	private List<String> commands = new ArrayList<String>();
 
-	public void onBrushActivated(EntityPlayerSP player, BlockPos pos) {
+	public void onBrushActivated(BlockPos pos) {
 		if (radius < 1) {
 			ChatMessenger.addMessageLocalized("cste.commands.brush.smallrad", EnumChatFormatting.RED);
 		}
