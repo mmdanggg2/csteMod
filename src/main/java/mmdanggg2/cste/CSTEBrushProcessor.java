@@ -223,7 +223,9 @@ public class CSTEBrushProcessor {
 	}
 	
 	private void setBlockComp(BlockPos pos, String block) {
-		commands.add("/setblock " + CSTESelectionProcessor.posToStr(pos) + " " + block);
+		if (256 > pos.getY() && pos.getY() >= 0) {
+			commands.add("/setblock " + CSTESelectionProcessor.posToStr(pos) + " " + block);
+		}
 	}
 	
 	private void sendCommands() {

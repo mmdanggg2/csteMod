@@ -22,7 +22,7 @@ public class KeyEventHandler {
 	// binding descriptions
 	private static final String[] desc = { "cste.keybinding.usebrush", "cste.keybinding.usewand" };
 	// binding defaults
-	private static final int[] keyValues = { Keyboard.KEY_R, Keyboard.KEY_F };
+	private static final int[] keyValues = { Keyboard.KEY_B, Keyboard.KEY_F };
 	private final KeyBinding[] keys;
 
 	public KeyEventHandler() {

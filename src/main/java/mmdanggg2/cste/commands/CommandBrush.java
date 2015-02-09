@@ -33,7 +33,7 @@ public class CommandBrush extends CommandBase {
 			EntityPlayer player = (EntityPlayer) sender;
 			if (args.length != 0 && args[0].equalsIgnoreCase("clear")) {
 				CSTELogger.logDebug("Clearing Brush");
-				CSTE.selProcessor.wand = null;
+				CSTE.brushProcessor.brush = null;
 				ChatMessenger.addMessageLocalized("cste.commands.brush.clear");
 			}
 			else if (player.getHeldItem() != null) {
