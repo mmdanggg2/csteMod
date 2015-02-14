@@ -2,6 +2,7 @@ package mmdanggg2.cste.render;
 
 import mmdanggg2.cste.CSTE;
 import mmdanggg2.cste.CSTEInfo;
+import mmdanggg2.cste.selections.SelectionCube;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;
@@ -21,7 +22,7 @@ public class CSTERenderer {
 	}
 	
 	private void renderSelBox(RenderWorldLastEvent event) {
-		BlockPos[] sel = CSTE.selProcessor.getSelection();
+		SelectionCube sel = CSTE.selProcessor.getSelection();
 		Minecraft mc = Minecraft.getMinecraft();
         EntityPlayerSP player = mc.thePlayer;
 		double partialTicks = event.partialTicks;
@@ -29,7 +30,9 @@ public class CSTERenderer {
         double yOff = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)partialTicks;
         double zOff = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)partialTicks;
         
-        AxisAlignedBB selBBox = new AxisAlignedBB(sel[0].getX(), sel[0].getY(), sel[0].getZ(), sel[1].getX(), sel[1].getY(), sel[1].getZ());
+        BlockPos pos1 = sel.getPos1();
+        BlockPos pos2 = sel.getPos2();
+        AxisAlignedBB selBBox = new AxisAlignedBB(pos1.getX(), pos1.getY(), pos1.getZ(), pos2.getX(), pos2.getY(), pos2.getZ());
         AxisAlignedBB rendBBox = selBBox.offset(-xOff, -yOff, -zOff);
 		
 		GlStateManager.pushAttrib();
