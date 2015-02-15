@@ -124,36 +124,46 @@ public class HeightMap {
 
                 // We are keeping the topmost blocks so take that in account for the scale
                 double scale = (double) (curHeight - originY) / (double) (newHeight - originY);
+                
+                Block existing;
+                int existingMeta;
 
                 // Depending on growing or shrinking we need to start at the bottom or top
                 if (newHeight > curHeight) {
                     // Set the top block of the column to be the same type (this might go wrong with rounding)
-                    Block existing = WorldReader.getBlock(new BlockPos(xr, curHeight, zr));
+                    existing = WorldReader.getBlock(new BlockPos(xr, curHeight, zr));
+                    existingMeta = existing.getMetaFromState(WorldReader.getBlockState(new BlockPos(xr, curHeight, zr)));
 
                     // Skip water/lava
                     if (!(existing instanceof BlockLiquid)) {
-                        addBlock(new BlockPos(xr, newHeight, zr), existing, blocksChanged);
+                        addBlock(new BlockPos(xr, newHeight, zr), existing, existingMeta, blocksChanged);
 
                         // Grow -- start from 1 below top replacing airblocks
                         for (int y = newHeight - 1 - originY; y >= 0; --y) {
                             int copyFrom = (int) (y * scale);
-                            addBlock(new BlockPos(xr, originY + y, zr), WorldReader.getBlock(new BlockPos(xr, originY + copyFrom, zr)), blocksChanged);
+                            existing = WorldReader.getBlock(new BlockPos(xr, originY + copyFrom, zr));
+                            existingMeta = existing.getMetaFromState(WorldReader.getBlockState(new BlockPos(xr, originY + copyFrom, zr)));
+                            addBlock(new BlockPos(xr, originY + y, zr), existing, existingMeta, blocksChanged);
                         }
                     }
                 } else if (curHeight > newHeight) {
                     // Shrink -- start from bottom
                     for (int y = 0; y < newHeight - originY; ++y) {
                         int copyFrom = (int) (y * scale);
-                        addBlock(new BlockPos(xr, originY + y, zr), WorldReader.getBlock(new BlockPos(xr, originY + copyFrom, zr)), blocksChanged);
+                        existing = WorldReader.getBlock(new BlockPos(xr, originY + copyFrom, zr));
+                        existingMeta = existing.getMetaFromState(WorldReader.getBlockState(new BlockPos(xr, originY + copyFrom, zr)));
+                        addBlock(new BlockPos(xr, originY + y, zr), existing, existingMeta, blocksChanged);
                     }
 
                     // Set the top block of the column to be the same type
                     // (this could otherwise go wrong with rounding)
-                    addBlock(new BlockPos(xr, newHeight, zr), WorldReader.getBlock(new BlockPos(xr, curHeight, zr)), blocksChanged);
+                    existing = WorldReader.getBlock(new BlockPos(xr, curHeight, zr));
+                    existingMeta = existing.getMetaFromState(WorldReader.getBlockState(new BlockPos(xr, curHeight, zr)));
+                    addBlock(new BlockPos(xr, newHeight, zr), existing, existingMeta, blocksChanged);
 
                     // Fill rest with air
                     for (int y = newHeight + 1; y <= curHeight; ++y) {
-                        addBlock(new BlockPos(xr, y, zr), Block.getBlockFromName("air"), blocksChanged);
+                        addBlock(new BlockPos(xr, y, zr), Block.getBlockFromName("air"), 0, blocksChanged);
                     }
                 }
             }
@@ -164,8 +174,8 @@ public class HeightMap {
         return blocksChanged;
     }
 
-	private void addBlock(BlockPos blockPos, Block block, List<BlockDelta> blocksChanged) {
-		blocksChanged.add(new BlockDelta(blockPos, block));
+	private void addBlock(BlockPos blockPos, Block block, int meta, List<BlockDelta> blocksChanged) {
+		blocksChanged.add(new BlockDelta(blockPos, block, meta));
 	}
 
 }

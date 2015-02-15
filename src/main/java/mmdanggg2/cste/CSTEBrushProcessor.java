@@ -208,10 +208,10 @@ public class CSTEBrushProcessor {
 		
     	commands.clear();
 		for (BlockDelta bd : changed) {
-			if (bd.isChanged()){
-				ResourceLocation blockName = (ResourceLocation) Block.blockRegistry.getNameForObject(bd.getBlock());
+			if (bd.isChangedFromCurrent()){
+				ResourceLocation blockName = (ResourceLocation) Block.blockRegistry.getNameForObject(bd.getNewBlock());
 				//CSTELogger.logDebug("Block change: " + bd.getPos().toString() + ", " + blockName);
-				setBlockComp(bd.getPos(), blockName.toString());
+				setBlockComp(bd.getPos(), blockName.toString() + " " + bd.getNewMeta());
 			}
 		}
 		
