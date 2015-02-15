@@ -23,6 +23,7 @@ public class CommandCSTEHelp extends CommandBase {
 	public void execute(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Help Command Recieved!");
 		ChatMessenger.addMessageLocalized("cste.commands.fill.help");
+		ChatMessenger.addMessageLocalized("cste.commands.replace.help");
 		ChatMessenger.addMessageLocalized("cste.commands.wand.help");
 		ChatMessenger.addMessageLocalized("cste.commands.fillmode.help");
 		ChatMessenger.addMessageLocalized("cste.commands.pos.help");

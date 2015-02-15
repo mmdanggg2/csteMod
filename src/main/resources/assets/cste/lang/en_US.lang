@@ -8,6 +8,10 @@ cste.commands.fill.builderr=Some or all of the structure was not built, reason(s
 cste.commands.fill.success=%s block(s) changed.
 cste.commands.fill.nochange=No blocks changed.
 
+cste.commands.replace=/cste-replace <block>[:meta] <replacement>
+cste.commands.replace.help=/cste-replace <block>[:meta] <replacement> - replaces block with replacement.
+cste.commands.replace.notint=%s is not a number under 15.
+
 cste.commands.wand=/cste-wand [clear]
 cste.commands.wand.help=/cste-wand [clear] - selects and clears the wand.
 cste.commands.wand.sel=%s is now the wand.

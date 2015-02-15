@@ -1,25 +1,17 @@
 package mmdanggg2.cste.world;
 
-import com.google.common.collect.ImmutableMap;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.util.BlockPos;
 
 public class WorldReader {
 	public static Block getBlock(BlockPos pos) {
-		Minecraft mc = Minecraft.getMinecraft();
-		WorldClient world = mc.theWorld;
-		IBlockState state = world.getBlockState(pos);
-		return state.getBlock();
+		return Minecraft.getMinecraft().theWorld.getBlockState(pos).getBlock();
 	}
 	
-	public static ImmutableMap<?, ?> getBlockData(BlockPos pos) {
-		WorldClient world = Minecraft.getMinecraft().theWorld;
-		IBlockState state = world.getBlockState(pos);
-		return state.getProperties();
+	public static IBlockState getBlockState(BlockPos pos) {
+		return Minecraft.getMinecraft().theWorld.getBlockState(pos);
 	}
 
 	/**

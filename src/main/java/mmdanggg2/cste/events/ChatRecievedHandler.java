@@ -135,6 +135,10 @@ public class ChatRecievedHandler {
 	}
 	
 	public void buildingStart(int numResults) {
+		if (numResults < 1) {
+			ChatMessenger.addMessageLocalized("cste.commands.fill.nochange");
+			return;
+		}
 		building = true;
 		messagesNeeded = numResults;
 	}

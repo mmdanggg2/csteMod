@@ -1,13 +1,18 @@
 package mmdanggg2.cste;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mmdanggg2.cste.events.ChatRecievedHandler;
 import mmdanggg2.cste.selections.SelectionCube;
 import mmdanggg2.cste.util.CSTELogger;
 import mmdanggg2.cste.util.ChatMessenger;
+import mmdanggg2.cste.world.WorldReader;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
-
 import org.apache.commons.lang3.StringUtils;
 
 public class CSTESelectionProcessor {
@@ -15,6 +20,7 @@ public class CSTESelectionProcessor {
 	private int currPos = 0;
 	public Item wand = null;
 	private BuildMode buildMode = BuildMode.SOLIDCUBE;
+	private List<String> commands = new ArrayList<String>();
 
 	public void onBlockActivated(BlockPos pos) {
 		ChatMessenger.addMessage("Pos" + (currPos+1) + " = " + posToStr(pos));
@@ -26,7 +32,7 @@ public class CSTESelectionProcessor {
 			String argStr = StringUtils.join(args, " ");
 			if (buildMode == BuildMode.SOLIDCUBE) {
 				buildingStart(1);
-				String command = "/fill " + posToStr(sel.getPos1()) + " " + posToStr(sel.getPos1()) + " " + argStr;
+				String command = "/fill " + posToStr(sel.getPos1()) + " " + posToStr(sel.getPos2()) + " " + argStr;
 				ChatMessenger.sendMessage(command);
 				return;
 			}
@@ -76,6 +82,34 @@ public class CSTESelectionProcessor {
 			return;
 		}
 		ChatMessenger.addMessageLocalized("cste.commands.fill.nomode");
+	}
+	
+	public void onReplaceCommand(Block block, Integer meta, String replacement) {
+		if (hasSelection()) {
+			CSTELogger.logDebug("Replacing " + block.getUnlocalizedName() + meta + " with: " + replacement);
+			BlockPos pos1 = sel.getSmallestCoord();
+			BlockPos pos2 = sel.getLargestCoord();
+			
+			for (int x = pos1.getX(); x <= pos2.getX(); x++) {
+				for (int y = pos1.getY(); y <= pos2.getY(); y++) {
+					for (int z = pos1.getZ(); z <= pos2.getZ(); z++) {
+						BlockPos pos = new BlockPos(x, y, z);
+						IBlockState worldState = WorldReader.getBlockState(pos);
+						if (worldState.getBlock() == block) {
+							if (meta == null || worldState.getBlock().getMetaFromState(worldState) == meta) {
+								setBlockComp(pos, replacement);
+							}
+						}
+					}	
+				}
+			}
+			sendCommands();
+			return;
+		}
+		else {
+			ChatMessenger.addMessageLocalized("cste.commands.fill.nosel");
+			return;
+		}
 	}
 
 	public void onModeCommand(String[] args) {
@@ -143,7 +177,7 @@ public class CSTESelectionProcessor {
 			sel.setPos1(pos);
 			currPos = 1;
 		}
-		if (currPos == 1) {
+		else if (currPos == 1) {
 			sel.setPos2(pos);
 			currPos = 0;
 		}
@@ -170,6 +204,20 @@ public class CSTESelectionProcessor {
 
 	private void buildingStart(int numResults) {
 		ChatRecievedHandler.instance.buildingStart(numResults);
+	}
+	
+	private void setBlockComp(BlockPos pos, String block) {
+		if (256 > pos.getY() && pos.getY() >= 0) {
+			commands.add("/setblock " + CSTESelectionProcessor.posToStr(pos) + " " + block);
+		}
+	}
+	
+	private void sendCommands() {
+		ChatRecievedHandler.instance.buildingStart(commands.size());
+		for (String command : commands) {
+			ChatMessenger.sendMessage(command);
+		}
+		commands.clear();
 	}
 	
 	public boolean hasSelection() {
