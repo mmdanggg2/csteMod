@@ -29,6 +29,7 @@ public class CommandCSTEHelp extends CommandBase {
 		ChatMessenger.addMessageLocalized("cste.commands.pos.help");
 		ChatMessenger.addMessageLocalized("cste.commands.brush.help");
 		ChatMessenger.addMessageLocalized("cste.commands.brushmode.help");
+		ChatMessenger.addMessageLocalized("cste.commands.undo.help");
 	}
 
 	@Override

@@ -47,6 +47,9 @@ cste.commands.brushmode.vlargerad=RADIUS IS HUGE, THIS WILL CAUSE EXTREME LAG, U
 cste.commands.brushmode.radtoolarge=I'm sorry, %s. I'm afraid I can't do that.
 cste.commands.brushmode.info=Brush is currently: %s.
 
+cste.commands.undo=/cste-undo
+cste.commands.undo.help=/cste-undo - undo the previous action
+
 cste.keybinding.category=CSTE Keybindings
 cste.keybinding.usebrush=Use brush
 cste.keybinding.usewand=Use wand

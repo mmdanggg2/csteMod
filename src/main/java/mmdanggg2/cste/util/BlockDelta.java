@@ -53,6 +53,11 @@ public class BlockDelta {
 		return rl.toString() + " " + newMeta;
 	}
 	
+	public String getOldBlockStr() {
+		ResourceLocation rl = (ResourceLocation) Block.blockRegistry.getNameForObject(oldBlock);
+		return rl.toString() + " " + oldMeta;
+	}
+	
 	public boolean isChangedFromCurrent(){
 		if (newBlock == WorldReader.getBlock(pos)) {
 			if (newMeta == newBlock.getMetaFromState(WorldReader.getBlockState(pos))) {

@@ -2,26 +2,40 @@ package mmdanggg2.cste;
 
 import java.util.ArrayList;
 import mmdanggg2.cste.util.BlockDelta;
+import mmdanggg2.cste.util.CSTELogger;
 
 public class CSTEHistory {
 	private ArrayList<ArrayList<BlockDelta>> history;
-	private int historyLevel;
 
 	public CSTEHistory() {
-		this.historyLevel = 0;
 		ArrayList<ArrayList<BlockDelta>> hist = new ArrayList<ArrayList<BlockDelta>>();
 		ArrayList<BlockDelta> currHistory = new ArrayList<BlockDelta>();
-		hist.set(historyLevel, currHistory);
+		hist.add(currHistory);
 		this.history = hist;
 	}
 	
 	public void addDelta(BlockDelta bd) {
-		ArrayList<BlockDelta> currHistory = history.get(historyLevel);
+		if (history.size() == 0) {
+			history.add(new ArrayList<BlockDelta>());
+		}
+		ArrayList<BlockDelta> currHistory = history.get(history.size()-1);
 		currHistory.add(bd);
+		CSTELogger.logDebug("New BlockDelta: " + currHistory.size() + ", history: " + history.size());
 	}
 
 	public void nextLevel() {
-		this.historyLevel ++;
-		history.set(historyLevel, new ArrayList<BlockDelta>());
+		history.add(new ArrayList<BlockDelta>());
+		CSTELogger.logDebug("New history level: " + history.size());
+	}
+	
+	public ArrayList<BlockDelta> getHistory() {
+		ArrayList<BlockDelta> currHistory = history.remove(history.size()-1);
+		while (currHistory.size() == 0 && history.size() > 0) {
+			currHistory = history.remove(history.size()-1);
+		}
+		if (history.size() == 0) {
+			history.add(new ArrayList<BlockDelta>());
+		}
+		return currHistory;
 	}
 }
