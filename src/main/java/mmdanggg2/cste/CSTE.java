@@ -35,6 +35,8 @@ public class CSTE {
 	public static CSTESelectionProcessor selProcessor;
 	
 	public static CSTEBrushProcessor brushProcessor;
+	
+	public static CSTEHistory history;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -75,6 +77,7 @@ public class CSTE {
 		if (event.getSide().isServer()) {
 			return;
 		}
+		CSTE.history = new CSTEHistory();
 		CSTE.selProcessor = new CSTESelectionProcessor();
 		CSTE.brushProcessor = new CSTEBrushProcessor();
 	}

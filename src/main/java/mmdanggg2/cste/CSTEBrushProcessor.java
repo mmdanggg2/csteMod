@@ -249,6 +249,7 @@ public class CSTEBrushProcessor {
 	private void setBlock(BlockPos pos, Block block, int meta) {
 		if (256 > pos.getY() && pos.getY() >= 0) {
 			BlockDelta bd = new BlockDelta(pos, block, meta);
+			CSTE.history.addDelta(bd);
 			commands.add("/setblock " + CSTESelectionProcessor.posToStr(pos) + " " + bd.getNewBlockStr());
 		}
 	}
@@ -259,6 +260,7 @@ public class CSTEBrushProcessor {
 			ChatMessenger.sendMessage(command);
 		}
 		commands.clear();
+		CSTE.history.nextLevel();
 	}
 	
 	private static double lengthSq(double x, double y, double z) {
