@@ -1,6 +1,5 @@
 package mmdanggg2.cste;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,11 +8,11 @@ import com.sk89q.worldedit.math.convolution.GaussianKernel;
 import com.sk89q.worldedit.math.convolution.HeightMap;
 import com.sk89q.worldedit.math.convolution.HeightMapFilter;
 
-import mmdanggg2.cste.events.ChatRecievedHandler;
 import mmdanggg2.cste.selections.SelectionCube;
 import mmdanggg2.cste.util.BlockDelta;
 import mmdanggg2.cste.util.CSTELogger;
 import mmdanggg2.cste.util.ChatMessenger;
+import mmdanggg2.cste.world.WorldEditor;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
@@ -30,7 +29,6 @@ public class CSTEBrushProcessor {
 	private Block brushBlock = Blocks.stone;
 	private int brushMeta = 0;
 	private BrushMode brushMode = BrushMode.FILL;
-	private List<String> commands = new ArrayList<String>();
 
 	public void onBrushActivated(BlockPos pos) {
 		if (radius < 1) {
@@ -160,8 +158,6 @@ public class CSTEBrushProcessor {
      */
     private void makeSphere(BlockPos pos, Block block, int meta, double radius, boolean filled) {
     	
-    	commands.clear();
-    	
         radius += 0.5;
         
         final double invRadius = 1 / radius;
@@ -198,19 +194,19 @@ public class CSTEBrushProcessor {
                         }
                     }
 
-                    setBlock(pos.add(x, y, z), block, meta);
-                    setBlock(pos.add(-x, y, z), block, meta);
-                    setBlock(pos.add(x, -y, z), block, meta);
-                    setBlock(pos.add(x, y, -z), block, meta);
-                    setBlock(pos.add(-x, -y, z), block, meta);
-                    setBlock(pos.add(x, -y, -z), block, meta);
-                    setBlock(pos.add(-x, y, -z), block, meta);
-                    setBlock(pos.add(-x, -y, -z), block, meta);
+                    WorldEditor.setBlock(pos.add(x, y, z), block, meta);
+                    WorldEditor.setBlock(pos.add(-x, y, z), block, meta);
+                    WorldEditor.setBlock(pos.add(x, -y, z), block, meta);
+                    WorldEditor.setBlock(pos.add(x, y, -z), block, meta);
+                    WorldEditor.setBlock(pos.add(-x, -y, z), block, meta);
+                    WorldEditor.setBlock(pos.add(x, -y, -z), block, meta);
+                    WorldEditor.setBlock(pos.add(-x, y, -z), block, meta);
+                    WorldEditor.setBlock(pos.add(-x, -y, -z), block, meta);
                 }
             }
         }
         
-        sendCommands();
+        WorldEditor.sendCommands();
     }
 
 	/**
@@ -231,36 +227,17 @@ public class CSTEBrushProcessor {
 		List<BlockDelta> changed = heightMap.applyFilter(filter, 4);
 		
 		CSTELogger.logDebug("Blocks changing: " + changed.size());
-		
-    	commands.clear();
 		for (BlockDelta bd : changed) {
 			if (bd.isChangedFromCurrent()){
-				setBlock(bd.getPos(), bd.getNewBlock(), bd.getNewMeta());
+				WorldEditor.setBlock(bd.getPos(), bd.getNewBlock(), bd.getNewMeta());
 			}
 		}
 		
-		sendCommands();
+		WorldEditor.sendCommands();
 	}
 
 	private void setBrushMode(BrushMode mode) {
 		brushMode = mode;
-	}
-	
-	private void setBlock(BlockPos pos, Block block, int meta) {
-		if (256 > pos.getY() && pos.getY() >= 0) {
-			BlockDelta bd = new BlockDelta(pos, block, meta);
-			CSTE.history.addDelta(bd);
-			commands.add("/setblock " + CSTESelectionProcessor.posToStr(pos) + " " + bd.getNewBlockStr());
-		}
-	}
-	
-	private void sendCommands() {
-		ChatRecievedHandler.instance.buildingStart(commands.size());
-		for (String command : commands) {
-			ChatMessenger.sendMessage(command);
-		}
-		commands.clear();
-		CSTE.history.nextLevel();
 	}
 	
 	private static double lengthSq(double x, double y, double z) {

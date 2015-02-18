@@ -1,18 +1,17 @@
 package mmdanggg2.cste;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mmdanggg2.cste.events.ChatRecievedHandler;
 import mmdanggg2.cste.selections.SelectionCube;
 import mmdanggg2.cste.util.CSTELogger;
 import mmdanggg2.cste.util.ChatMessenger;
+import mmdanggg2.cste.world.WorldEditor;
 import mmdanggg2.cste.world.WorldReader;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
+
 import org.apache.commons.lang3.StringUtils;
 
 public class CSTESelectionProcessor {
@@ -20,7 +19,6 @@ public class CSTESelectionProcessor {
 	private int currPos = 0;
 	public Item wand = null;
 	private BuildMode buildMode = BuildMode.SOLIDCUBE;
-	private List<String> commands = new ArrayList<String>();
 
 	public void onBlockActivated(BlockPos pos) {
 		ChatMessenger.addMessage("Pos" + (currPos+1) + " = " + posToStr(pos));
@@ -84,9 +82,9 @@ public class CSTESelectionProcessor {
 		ChatMessenger.addMessageLocalized("cste.commands.fill.nomode");
 	}
 	
-	public void onReplaceCommand(Block block, Integer meta, String replacement) {
+	public void onReplaceCommand(Block oldBlock, Integer oldMeta, Block newBlock, int newMeta) {
 		if (hasSelection()) {
-			CSTELogger.logDebug("Replacing " + block.getUnlocalizedName() + meta + " with: " + replacement);
+			CSTELogger.logDebug("Replacing " + oldBlock.getUnlocalizedName() + oldMeta + " with: " + newBlock.getUnlocalizedName() + newMeta);
 			BlockPos pos1 = sel.getSmallestCoord();
 			BlockPos pos2 = sel.getLargestCoord();
 			
@@ -95,15 +93,15 @@ public class CSTESelectionProcessor {
 					for (int z = pos1.getZ(); z <= pos2.getZ(); z++) {
 						BlockPos pos = new BlockPos(x, y, z);
 						IBlockState worldState = WorldReader.getBlockState(pos);
-						if (worldState.getBlock() == block) {
-							if (meta == null || worldState.getBlock().getMetaFromState(worldState) == meta) {
-								setBlockComp(pos, replacement);
+						if (worldState.getBlock() == oldBlock) {
+							if (oldMeta == null || worldState.getBlock().getMetaFromState(worldState) == oldMeta) {
+								WorldEditor.setBlock(pos, newBlock, newMeta);
 							}
 						}
 					}	
 				}
 			}
-			sendCommands();
+			WorldEditor.sendCommands();
 			return;
 		}
 		else {
@@ -204,20 +202,6 @@ public class CSTESelectionProcessor {
 
 	private void buildingStart(int numResults) {
 		ChatRecievedHandler.instance.buildingStart(numResults);
-	}
-	
-	private void setBlockComp(BlockPos pos, String block) {
-		if (256 > pos.getY() && pos.getY() >= 0) {
-			commands.add("/setblock " + CSTESelectionProcessor.posToStr(pos) + " " + block);
-		}
-	}
-	
-	private void sendCommands() {
-		ChatRecievedHandler.instance.buildingStart(commands.size());
-		for (String command : commands) {
-			ChatMessenger.sendMessage(command);
-		}
-		commands.clear();
 	}
 	
 	public boolean hasSelection() {
