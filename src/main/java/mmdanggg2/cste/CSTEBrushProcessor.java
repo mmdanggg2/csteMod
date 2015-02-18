@@ -1,7 +1,6 @@
 package mmdanggg2.cste;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -17,15 +16,19 @@ import mmdanggg2.cste.util.CSTELogger;
 import mmdanggg2.cste.util.ChatMessenger;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.NumberInvalidException;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.ResourceLocation;
 
 public class CSTEBrushProcessor {
 	public Item brush = null;
 	private int radius = 5;
-	private String block = "stone"; //String containing the block name and data tags
+	private Block brushBlock = Blocks.stone;
+	private int brushMeta = 0;
 	private BrushMode brushMode = BrushMode.FILL;
 	private List<String> commands = new ArrayList<String>();
 
@@ -38,17 +41,17 @@ public class CSTEBrushProcessor {
 			smoothArea(pos, radius);
 		}
 		else {
-			if (block.isEmpty()) {
+			if (brushBlock == null) {
 				ChatMessenger.addMessageLocalized("cste.commands.brush.noblock", EnumChatFormatting.RED);
 			}
 			else {
 				if (brushMode.equals(BrushMode.FILL)) {
 					CSTELogger.logDebug("Brush fill");
-					makeSphere(pos, block, radius, true);
+					makeSphere(pos, brushBlock, brushMeta, radius, true);
 				}
 				else if (brushMode.equals(BrushMode.HOLLOWFILL)) {
 					CSTELogger.logDebug("Brush hollow fill");
-					makeSphere(pos, block, radius, false);
+					makeSphere(pos, brushBlock, brushMeta, radius, false);
 				}
 			}
 		}
@@ -61,7 +64,7 @@ public class CSTEBrushProcessor {
 				ChatMessenger.addMessageLocalized("cste.commands.brushmode.info", modeStr);
 			}
 			else {
-				String modeStr = StringUtils.join(new String[] {brushMode.getName(), Integer.toString(radius), block}, ", ");
+				String modeStr = StringUtils.join(new String[] {brushMode.getName(), Integer.toString(radius), new ItemStack(brushBlock, 1, brushMeta).getDisplayName()}, ", ");
 				ChatMessenger.addMessageLocalized("cste.commands.brushmode.info", modeStr);
 			}
 		}
@@ -109,14 +112,37 @@ public class CSTEBrushProcessor {
 				}
 			}
 			if (args.length >= 3 && !brushMode.equals(BrushMode.SMOOTH)) {
-				block = StringUtils.join(Arrays.copyOfRange(args, 2, args.length), " ");
+				Block block;
+				try {
+					block = CommandBase.getBlockByText(null, args[2]);
+				} catch (NumberInvalidException e) {
+					ChatMessenger.addMessageLocalized(e.getMessage(), EnumChatFormatting.RED);
+					return;
+				}
+				Integer meta = null;
+				if (args.length == 4) {
+					if (StringUtils.isNumeric(args[3])) {
+						meta = Integer.parseInt(args[3]);
+						if (meta > 15) {
+							meta = 0;
+						}
+					}
+					else {
+						meta = 0;
+					}
+				}
+				else {
+					meta = 0;
+				}
+				brushBlock = block;
+				brushMeta = meta;
 			}
 			if (brushMode.equals(BrushMode.SMOOTH)) {
 				String modeStr = StringUtils.join(new String[] {brushMode.getName(), Integer.toString(radius)}, ", ");
 				ChatMessenger.addMessageLocalized("cste.commands.brushmode.success", modeStr);
 			}
 			else {
-				String modeStr = StringUtils.join(new String[] {brushMode.getName(), Integer.toString(radius), block}, ", ");
+				String modeStr = StringUtils.join(new String[] {brushMode.getName(), Integer.toString(radius), new ItemStack(brushBlock, 1, brushMeta).getDisplayName()}, ", ");
 				ChatMessenger.addMessageLocalized("cste.commands.brushmode.success", modeStr);
 			}
 		}
@@ -132,7 +158,7 @@ public class CSTEBrushProcessor {
      * @param radius the radius
      * @param filled If false, only a shell will be generated.
      */
-    private void makeSphere(BlockPos pos, String block, double radius, boolean filled) {
+    private void makeSphere(BlockPos pos, Block block, int meta, double radius, boolean filled) {
     	
     	commands.clear();
     	
@@ -172,14 +198,14 @@ public class CSTEBrushProcessor {
                         }
                     }
 
-                    setBlockComp(pos.add(x, y, z), block);
-                    setBlockComp(pos.add(-x, y, z), block);
-                    setBlockComp(pos.add(x, -y, z), block);
-                    setBlockComp(pos.add(x, y, -z), block);
-                    setBlockComp(pos.add(-x, -y, z), block);
-                    setBlockComp(pos.add(x, -y, -z), block);
-                    setBlockComp(pos.add(-x, y, -z), block);
-                    setBlockComp(pos.add(-x, -y, -z), block);
+                    setBlock(pos.add(x, y, z), block, meta);
+                    setBlock(pos.add(-x, y, z), block, meta);
+                    setBlock(pos.add(x, -y, z), block, meta);
+                    setBlock(pos.add(x, y, -z), block, meta);
+                    setBlock(pos.add(-x, -y, z), block, meta);
+                    setBlock(pos.add(x, -y, -z), block, meta);
+                    setBlock(pos.add(-x, y, -z), block, meta);
+                    setBlock(pos.add(-x, -y, -z), block, meta);
                 }
             }
         }
@@ -209,9 +235,7 @@ public class CSTEBrushProcessor {
     	commands.clear();
 		for (BlockDelta bd : changed) {
 			if (bd.isChangedFromCurrent()){
-				ResourceLocation blockName = (ResourceLocation) Block.blockRegistry.getNameForObject(bd.getNewBlock());
-				//CSTELogger.logDebug("Block change: " + bd.getPos().toString() + ", " + blockName);
-				setBlockComp(bd.getPos(), blockName.toString() + " " + bd.getNewMeta());
+				setBlock(bd.getPos(), bd.getNewBlock(), bd.getNewMeta());
 			}
 		}
 		
@@ -222,9 +246,10 @@ public class CSTEBrushProcessor {
 		brushMode = mode;
 	}
 	
-	private void setBlockComp(BlockPos pos, String block) {
+	private void setBlock(BlockPos pos, Block block, int meta) {
 		if (256 > pos.getY() && pos.getY() >= 0) {
-			commands.add("/setblock " + CSTESelectionProcessor.posToStr(pos) + " " + block);
+			BlockDelta bd = new BlockDelta(pos, block, meta);
+			commands.add("/setblock " + CSTESelectionProcessor.posToStr(pos) + " " + bd.getNewBlockStr());
 		}
 	}
 	

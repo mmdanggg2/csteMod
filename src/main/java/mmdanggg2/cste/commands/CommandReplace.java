@@ -32,7 +32,7 @@ public class CommandReplace extends CommandBase {
 		CSTELogger.logDebug("Replace Command Recieved!");
 		if (args.length >= 2) {
 			String[] args2 = StringUtils.split(args[0], ':');
-			Block block = CommandBase.getBlockByText(null, args2[0]);
+			Block block = CommandBase.getBlockByText(sender, args2[0]);
 			String replacement = StringUtils.join(Arrays.copyOfRange(args, 1, args.length), " ");
 			Integer meta = null;
 			if (args2.length == 2 && args2[1] != null && !args2[1].isEmpty()) {

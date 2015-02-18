@@ -4,6 +4,7 @@ import mmdanggg2.cste.world.WorldReader;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ResourceLocation;
 
 public class BlockDelta {
 	private BlockPos pos;
@@ -47,6 +48,11 @@ public class BlockDelta {
 		return oldMeta;
 	}
 	
+	public String getNewBlockStr() {
+		ResourceLocation rl = (ResourceLocation) Block.blockRegistry.getNameForObject(newBlock);
+		return rl.toString() + " " + newMeta;
+	}
+	
 	public boolean isChangedFromCurrent(){
 		if (newBlock == WorldReader.getBlock(pos)) {
 			if (newMeta == newBlock.getMetaFromState(WorldReader.getBlockState(pos))) {
@@ -61,5 +67,17 @@ public class BlockDelta {
 			return false;
 		}
 		return true;
+	}
+	
+	public int getX() {
+		return pos.getX();
+	}
+	
+	public int getY() {
+		return pos.getY();
+	}
+	
+	public int getZ() {
+		return pos.getZ();
 	}
 }
