@@ -33,7 +33,9 @@ public class CommandUndo extends CommandBase {
 		ArrayList<BlockDelta> history = CSTE.history.getHistory();
 		ArrayList<String> commands = new ArrayList<String>();
 		for (BlockDelta bd : history) {
-			commands.add("/setblock " + CSTESelectionProcessor.posToStr(bd.getPos()) + " " + bd.getOldBlockStr());
+			if (bd.isChanged()) {
+				commands.add("/setblock " + CSTESelectionProcessor.posToStr(bd.getPos()) + " " + bd.getOldBlockStr());
+			}
 		}
 		ChatRecievedHandler.instance.buildingStart(commands.size());
 		for (String command : commands) {
