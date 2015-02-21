@@ -2,6 +2,8 @@ package mmdanggg2.cste.commands;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import mmdanggg2.cste.CSTE;
 import mmdanggg2.cste.util.CSTELogger;
 import net.minecraft.block.Block;
@@ -27,8 +29,25 @@ public class CommandFill extends CommandBase {
 	@Override
 	public void execute(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Fill Command Recieved!");
-		if (!(args.length < 1)) {
-			CSTE.selProcessor.onFillCommand(args);
+		if (args.length >= 1) {
+			Block block = CommandBase.getBlockByText(sender, args[0]);
+			Integer meta;
+			if (args.length >= 2) {
+				if (StringUtils.isNumeric(args[1])) {
+					meta = Integer.parseInt(args[1]);
+					if (meta > 15) {
+						throw new WrongUsageException("cste.commands.replace.notint", args[1]);
+					}
+				}
+				else {
+					throw new WrongUsageException("cste.commands.replace.notint", args[1]);
+				}
+				CSTE.selProcessor.onFillCommand(block, meta);
+			}
+			else {
+				meta = 0;
+			}
+			CSTE.selProcessor.onFillCommand(block, meta);
 		}
 		else {
 			CSTELogger.logDebug("No args were given.");
@@ -45,9 +64,6 @@ public class CommandFill extends CommandBase {
     {
         if (args.length == 1) {
         	return func_175762_a(args, Block.blockRegistry.getKeys());
-        }
-        if (args.length == 3) {
-        	return getListOfStringsMatchingLastWord(args, new String[] {"replace", "destroy", "keep", "hollow", "outline"});
         }
         else {
         	return null;

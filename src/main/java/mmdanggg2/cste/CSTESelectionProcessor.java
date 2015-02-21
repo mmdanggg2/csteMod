@@ -2,6 +2,7 @@ package mmdanggg2.cste;
 
 import mmdanggg2.cste.events.ChatRecievedHandler;
 import mmdanggg2.cste.selections.SelectionCube;
+import mmdanggg2.cste.util.BlockDelta;
 import mmdanggg2.cste.util.CSTELogger;
 import mmdanggg2.cste.util.ChatMessenger;
 import mmdanggg2.cste.world.WorldEditor;
@@ -25,12 +26,12 @@ public class CSTESelectionProcessor {
 		setPosInc(pos);
 	}
 	
-	public void onFillCommand(String[] args) {
+	public void onFillCommand(Block block, int meta) {
 		if (hasSelection()) {
-			String argStr = StringUtils.join(args, " ");
+			BlockDelta bd = new BlockDelta(new BlockPos(0,0,0), block, meta);
 			if (buildMode == BuildMode.SOLIDCUBE) {
 				buildingStart(1);
-				String command = "/fill " + posToStr(sel.getPos1()) + " " + posToStr(sel.getPos2()) + " " + argStr;
+				String command = "/fill " + posToStr(sel.getPos1()) + " " + posToStr(sel.getPos2()) + " " + bd.getNewBlockStr();
 				ChatMessenger.sendMessage(command);
 				return;
 			}
@@ -43,12 +44,12 @@ public class CSTESelectionProcessor {
 				int z2 = sel.getPos2().getZ();
 				
 				buildingStart(6);
-				ChatMessenger.sendMessage("/fill " + posToStr(sel.getPos1()) + " " + x1 + " " + y2 + " " + z2 + " " + argStr);
-				ChatMessenger.sendMessage("/fill " + posToStr(sel.getPos1()) + " " + x2 + " " + y1 + " " + z2 + " " + argStr);
-				ChatMessenger.sendMessage("/fill " + posToStr(sel.getPos1()) + " " + x2 + " " + y2 + " " + z1 + " " + argStr);
-				ChatMessenger.sendMessage("/fill " + posToStr(sel.getPos2()) + " " + x2 + " " + y1 + " " + z1 + " " + argStr);
-				ChatMessenger.sendMessage("/fill " + posToStr(sel.getPos2()) + " " + x1 + " " + y2 + " " + z1 + " " + argStr);
-				ChatMessenger.sendMessage("/fill " + posToStr(sel.getPos2()) + " " + x1 + " " + y1 + " " + z2 + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + posToStr(sel.getPos1()) + " " + x1 + " " + y2 + " " + z2 + " " + bd.getNewBlockStr());
+				ChatMessenger.sendMessage("/fill " + posToStr(sel.getPos1()) + " " + x2 + " " + y1 + " " + z2 + " " + bd.getNewBlockStr());
+				ChatMessenger.sendMessage("/fill " + posToStr(sel.getPos1()) + " " + x2 + " " + y2 + " " + z1 + " " + bd.getNewBlockStr());
+				ChatMessenger.sendMessage("/fill " + posToStr(sel.getPos2()) + " " + x2 + " " + y1 + " " + z1 + " " + bd.getNewBlockStr());
+				ChatMessenger.sendMessage("/fill " + posToStr(sel.getPos2()) + " " + x1 + " " + y2 + " " + z1 + " " + bd.getNewBlockStr());
+				ChatMessenger.sendMessage("/fill " + posToStr(sel.getPos2()) + " " + x1 + " " + y1 + " " + z2 + " " + bd.getNewBlockStr());
 				return;
 			}
 			else if (buildMode == BuildMode.FRAME) {
@@ -60,18 +61,18 @@ public class CSTESelectionProcessor {
 				int z2 = sel.getPos2().getZ();
 				
 				buildingStart(12);
-				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x2,y1,z1}, ' ') + " " + argStr);
-				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x1,y2,z1}, ' ') + " " + argStr);
-				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x1,y1,z2}, ' ') + " " + argStr);
-				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x2,y1,z1,x2,y1,z2}, ' ') + " " + argStr);
-				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x2,y1,z1,x2,y2,z1}, ' ') + " " + argStr);
-				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y2,z1,x1,y2,z2}, ' ') + " " + argStr);
-				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y2,z1,x2,y2,z1}, ' ') + " " + argStr);
-				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y1,z2,x1,y2,z2}, ' ') + " " + argStr);
-				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y1,z2,x2,y1,z2}, ' ') + " " + argStr);
-				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x1,y2,z2}, ' ') + " " + argStr);
-				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x2,y1,z2}, ' ') + " " + argStr);
-				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x2,y2,z1}, ' ') + " " + argStr);
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x2,y1,z1}, ' ') + " " + bd.getNewBlockStr());
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x1,y2,z1}, ' ') + " " + bd.getNewBlockStr());
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y1,z1,x1,y1,z2}, ' ') + " " + bd.getNewBlockStr());
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x2,y1,z1,x2,y1,z2}, ' ') + " " + bd.getNewBlockStr());
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x2,y1,z1,x2,y2,z1}, ' ') + " " + bd.getNewBlockStr());
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y2,z1,x1,y2,z2}, ' ') + " " + bd.getNewBlockStr());
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y2,z1,x2,y2,z1}, ' ') + " " + bd.getNewBlockStr());
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y1,z2,x1,y2,z2}, ' ') + " " + bd.getNewBlockStr());
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x1,y1,z2,x2,y1,z2}, ' ') + " " + bd.getNewBlockStr());
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x1,y2,z2}, ' ') + " " + bd.getNewBlockStr());
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x2,y1,z2}, ' ') + " " + bd.getNewBlockStr());
+				ChatMessenger.sendMessage("/fill " + StringUtils.join(new int[] {x2,y2,z2,x2,y2,z1}, ' ') + " " + bd.getNewBlockStr());
 				return;
 			}
 		}
