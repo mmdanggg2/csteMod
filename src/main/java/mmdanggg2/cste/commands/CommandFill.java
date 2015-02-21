@@ -46,8 +46,8 @@ public class CommandFill extends CommandBase {
 			}
 			else {
 				meta = 0;
+				CSTE.selProcessor.onFillCommand(block, meta);
 			}
-			CSTE.selProcessor.onFillCommand(block, meta);
 		}
 		else {
 			CSTELogger.logDebug("No args were given.");
