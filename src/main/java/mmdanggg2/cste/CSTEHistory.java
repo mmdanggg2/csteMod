@@ -16,30 +16,24 @@ public class CSTEHistory {
 	}
 	
 	public void addDelta(BlockDelta bd) {
-		if (history.size() == 0) {
-			history.add(new HashSet<BlockDelta>());
-		}
-		HashSet<BlockDelta> currHistory = history.get(history.size()-1);
 		currHistory.add(bd);
 		//CSTELogger.logDebug("New BlockDelta: " + currHistory.size() + ", history: " + history.size());
 	}
 
 	public void nextLevel() {
-		CSTELogger.logDebug("Hisory level " + history.size() + " has " + history.get(history.size()-1).size() + " bd's");
-		history.add(new HashSet<BlockDelta>());
-		CSTELogger.logDebug("New history level: " + history.size());
+		CSTELogger.logDebug("Hisory level " + (history.size()+1) + " has " + currHistory.size() + " bd's");
+		history.add(currHistory);
+		currHistory = new HashSet<BlockDelta>();
+		CSTELogger.logDebug("Now building history level: " + (history.size()+1));
 	}
 	
 	public HashSet<BlockDelta> getHistory() {
-		CSTELogger.logDebug("Removing history level " + history.size());
-		HashSet<BlockDelta> currHistory = history.remove(history.size()-1);
-		while (currHistory.size() == 0 && history.size() > 0) {
-			CSTELogger.logDebug("History level " + (history.size()+1) + " was empty, removing " + history.size());
-			currHistory = history.remove(history.size()-1);
-		}
 		if (history.size() == 0) {
-			history.add(new HashSet<BlockDelta>());
+			CSTELogger.logDebug("History was empty.");
+			return new HashSet<BlockDelta>();
 		}
-		return currHistory;
+		CSTELogger.logDebug("Removing history level " + history.size());
+		HashSet<BlockDelta> retHistory = history.remove(history.size()-1);
+		return retHistory;
 	}
 }

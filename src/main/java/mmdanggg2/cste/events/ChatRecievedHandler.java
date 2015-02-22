@@ -148,6 +148,14 @@ public class ChatRecievedHandler {
 		building = true;
 		messagesNeeded = numResults;
 	}
+
+	public void buildingStop() {
+		CSTELogger.logDebug("Building Stopped!");
+		if (error) {CSTELogger.logInfo(getError());}
+		CSTELogger.logInfo(getChanged());
+		CSTELogger.logDebug((messagesNeeded - messagesGathered) + " messages were not counted!");
+		clearAll();
+	}
 	
 	public boolean isBuilding() {
 		return building;

@@ -16,6 +16,7 @@ import mmdanggg2.cste.util.ChatMessenger;
 import mmdanggg2.cste.world.WorldEditor;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.NumberInvalidException;
 import net.minecraft.init.Blocks;
@@ -145,7 +146,14 @@ public class CSTEBrushProcessor {
 				ChatMessenger.addMessageLocalized("cste.commands.brushmode.success", modeStr);
 			}
 			else {
-				String modeStr = StringUtils.join(new String[] {brushMode.getName(), Integer.toString(radius), new ItemStack(brushBlock, 1, brushMeta).getDisplayName()}, ", ");
+				String blockName;
+				try {
+					blockName = new ItemStack(brushBlock, 1, brushMeta).getDisplayName();
+				}
+				catch (NullPointerException e) {
+					blockName = I18n.format(brushBlock.getLocalizedName());
+				}
+				String modeStr = StringUtils.join(new String[] {brushMode.getName(), Integer.toString(radius), blockName}, ", ");
 				ChatMessenger.addMessageLocalized("cste.commands.brushmode.success", modeStr);
 			}
 		}

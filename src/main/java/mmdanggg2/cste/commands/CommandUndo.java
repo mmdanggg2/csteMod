@@ -36,7 +36,7 @@ public class CommandUndo extends CommandBase {
 		HashSet<BlockDelta> history = CSTE.history.getHistory();
 		HashSet<String> commands = new HashSet<String>();
 		for (BlockDelta bd : history) {
-			if (bd.isChangedFromCurrent()) {
+			if (bd.isChanged()) {
 				String command = "/setblock " + CSTESelectionProcessor.posToStr(bd.getPos()) + " " + bd.getOldBlockStr();
 				if (!commands.contains(command)) {
 					commands.add(command);

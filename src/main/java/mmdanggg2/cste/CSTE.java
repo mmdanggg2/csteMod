@@ -6,6 +6,7 @@ import mmdanggg2.cste.events.ChatRecievedHandler;
 import mmdanggg2.cste.events.KeyEventHandler;
 import mmdanggg2.cste.events.MouseEventHandler;
 import mmdanggg2.cste.events.PlayerInteractEventHandler;
+import mmdanggg2.cste.events.WorldUnloadHandler;
 import mmdanggg2.cste.util.CSTELogger;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -70,6 +71,7 @@ public class CSTE {
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHandler());
 		MinecraftForge.EVENT_BUS.register(new ChatRecievedHandler());
 		MinecraftForge.EVENT_BUS.register(new MouseEventHandler());
+		MinecraftForge.EVENT_BUS.register(new WorldUnloadHandler());
 	}
 	
 	@EventHandler
