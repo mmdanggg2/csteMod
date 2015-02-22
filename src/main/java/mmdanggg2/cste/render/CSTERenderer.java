@@ -32,6 +32,12 @@ public class CSTERenderer {
         
         BlockPos pos1 = sel.getPos1();
         BlockPos pos2 = sel.getPos2();
+        if (pos2 == null && pos1 != null) {
+        	pos2 = pos1;
+        }
+        else if (pos1 == null && pos2 != null) {
+        	pos1 = pos2;
+        }
         AxisAlignedBB selBBox = new AxisAlignedBB(pos1.getX(), pos1.getY(), pos1.getZ(), pos2.getX(), pos2.getY(), pos2.getZ());
         AxisAlignedBB rendBBox = selBBox.offset(-xOff, -yOff, -zOff);
 		

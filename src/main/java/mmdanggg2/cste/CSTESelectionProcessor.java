@@ -198,7 +198,7 @@ public class CSTESelectionProcessor {
 	}
 
 	public boolean hasSelection() {
-		if (sel.getPos1() != null && sel.getPos2() != null) {
+		if (sel.getPos1() != null || sel.getPos2() != null) {
 			return true;
 		}
 		else {
