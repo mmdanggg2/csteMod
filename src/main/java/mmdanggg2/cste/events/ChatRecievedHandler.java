@@ -19,7 +19,7 @@ public class ChatRecievedHandler {
 	private int blocksChanged = 0;
 	private int messagesNeeded = 0;
 	private int messagesGathered = 0;
-	private boolean building;
+	private boolean building = false;
 	public static ChatRecievedHandler instance;
 	
 	private int cmdsWasted = 0;
@@ -147,6 +147,10 @@ public class ChatRecievedHandler {
 		}
 		building = true;
 		messagesNeeded = numResults;
+	}
+	
+	public boolean isBuilding() {
+		return building;
 	}
 	
 	private enum ErrorType {

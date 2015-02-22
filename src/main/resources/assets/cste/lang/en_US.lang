@@ -50,6 +50,8 @@ cste.commands.brushmode.info=Brush is currently: %s.
 cste.commands.undo=/cste-undo
 cste.commands.undo.help=/cste-undo - undo the previous action
 
+cste.commands.error.stillbuilding=Please wait for the previous command to finish.
+
 cste.keybinding.category=CSTE Keybindings
 cste.keybinding.usebrush=Use brush
 cste.keybinding.usewand=Use wand

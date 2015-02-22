@@ -8,6 +8,7 @@ import com.sk89q.worldedit.math.convolution.GaussianKernel;
 import com.sk89q.worldedit.math.convolution.HeightMap;
 import com.sk89q.worldedit.math.convolution.HeightMapFilter;
 
+import mmdanggg2.cste.events.ChatRecievedHandler;
 import mmdanggg2.cste.selections.SelectionCube;
 import mmdanggg2.cste.util.BlockDelta;
 import mmdanggg2.cste.util.CSTELogger;
@@ -31,6 +32,10 @@ public class CSTEBrushProcessor {
 	private BrushMode brushMode = BrushMode.FILL;
 
 	public void onBrushActivated(BlockPos pos) {
+		if (ChatRecievedHandler.instance.isBuilding()) {
+			ChatMessenger.addMessageLocalized("cste.commands.error.stillbuilding", EnumChatFormatting.RED);
+			return;
+		}
 		if (radius < 1) {
 			ChatMessenger.addMessageLocalized("cste.commands.brush.smallrad", EnumChatFormatting.RED);
 		}

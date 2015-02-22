@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import mmdanggg2.cste.CSTE;
+import mmdanggg2.cste.events.ChatRecievedHandler;
 import mmdanggg2.cste.util.CSTELogger;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
@@ -29,6 +30,9 @@ public class CommandFill extends CommandBase {
 	@Override
 	public void execute(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Fill Command Recieved!");
+		if (ChatRecievedHandler.instance.isBuilding()) {
+			throw new CommandException("cste.commands.error.stillbuilding");
+		}
 		if (args.length >= 1) {
 			Block block = CommandBase.getBlockByText(sender, args[0]);
 			Integer meta;

@@ -3,6 +3,7 @@ package mmdanggg2.cste.commands;
 import java.util.List;
 
 import mmdanggg2.cste.CSTE;
+import mmdanggg2.cste.events.ChatRecievedHandler;
 import mmdanggg2.cste.util.CSTELogger;
 import mmdanggg2.cste.util.ChatMessenger;
 import net.minecraft.block.Block;
@@ -32,6 +33,9 @@ public class CommandReplace extends CommandBase {
 	@Override
 	public void execute(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Replace Command Recieved!");
+		if (ChatRecievedHandler.instance.isBuilding()) {
+			throw new CommandException("cste.commands.error.stillbuilding");
+		}
 		if (args.length >= 2) {
 			String[] args2 = StringUtils.split(args[0], ':');//TODO get this to work with minecraft:block
 			Block oldBlock = CommandBase.getBlockByText(sender, args2[0]);

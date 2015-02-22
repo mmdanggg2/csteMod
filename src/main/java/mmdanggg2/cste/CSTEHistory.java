@@ -8,12 +8,11 @@ import mmdanggg2.cste.util.CSTELogger;
 
 public class CSTEHistory {
 	private ArrayList<HashSet<BlockDelta>> history;
+	private HashSet<BlockDelta> currHistory;
 
 	public CSTEHistory() {
-		ArrayList<HashSet<BlockDelta>> hist = new ArrayList<HashSet<BlockDelta>>();
-		HashSet<BlockDelta> currHistory = new HashSet<BlockDelta>();
-		hist.add(currHistory);
-		this.history = hist;
+		history = new ArrayList<HashSet<BlockDelta>>();
+		currHistory = new HashSet<BlockDelta>();
 	}
 	
 	public void addDelta(BlockDelta bd) {
@@ -35,7 +34,7 @@ public class CSTEHistory {
 		CSTELogger.logDebug("Removing history level " + history.size());
 		HashSet<BlockDelta> currHistory = history.remove(history.size()-1);
 		while (currHistory.size() == 0 && history.size() > 0) {
-			CSTELogger.logDebug("History level " + (history.size()+1) + " was empty, removing");
+			CSTELogger.logDebug("History level " + (history.size()+1) + " was empty, removing " + history.size());
 			currHistory = history.remove(history.size()-1);
 		}
 		if (history.size() == 0) {

@@ -30,10 +30,13 @@ public class CommandUndo extends CommandBase {
 	@Override
 	public void execute(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Undo Command Recieved!");
+		if (ChatRecievedHandler.instance.isBuilding()) {
+			throw new CommandException("cste.commands.error.stillbuilding");
+		}
 		HashSet<BlockDelta> history = CSTE.history.getHistory();
 		HashSet<String> commands = new HashSet<String>();
 		for (BlockDelta bd : history) {
-			if (bd.isChanged() || bd.isChangedFromCurrent()) {
+			if (bd.isChangedFromCurrent()) {
 				String command = "/setblock " + CSTESelectionProcessor.posToStr(bd.getPos()) + " " + bd.getOldBlockStr();
 				if (!commands.contains(command)) {
 					commands.add(command);
