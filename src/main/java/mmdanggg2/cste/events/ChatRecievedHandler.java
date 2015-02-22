@@ -21,6 +21,8 @@ public class ChatRecievedHandler {
 	private int messagesGathered = 0;
 	private boolean building;
 	public static ChatRecievedHandler instance;
+	
+	private int cmdsWasted = 0;
 
 	public ChatRecievedHandler() {
 		instance = this;
@@ -30,7 +32,7 @@ public class ChatRecievedHandler {
 	public void handleEvent(ClientChatReceivedEvent event) {
 		//TODO put in all failure chat events
 		if (event.type == 1 && building) {
-			CSTELogger.logDebug("System message recieved: " + event.message.getUnformattedText());
+			//CSTELogger.logDebug("System message recieved: " + event.message.getUnformattedText());
 			if (event.message.getUnformattedText().equals(I18n.format("commands.fill.outOfWorld"))) {
 				error(ErrorType.OUTOFWORLD, event.message.getUnformattedText());
 				messagesGathered++;
@@ -57,11 +59,12 @@ public class ChatRecievedHandler {
 			}
 			else if (event.message.getUnformattedText().contains(I18n.format("commands.setblock.noChange"))) {
 				messagesGathered++;
+				cmdsWasted++;
 				event.setCanceled(true);
 			}
 			else if (event.message.getUnformattedText().contains(I18n.format("commands.setblock.success"))) {
 				blocksChanged++;
-				CSTELogger.logDebug("1 block changed, total: " + blocksChanged);
+				//CSTELogger.logDebug("1 block changed, total: " + blocksChanged);
 				messagesGathered++;
 				event.setCanceled(true);
 			}
@@ -75,7 +78,7 @@ public class ChatRecievedHandler {
 				messagesGathered++;
 				event.setCanceled(true);
 			}
-			CSTELogger.logDebug(messagesGathered + " messages gathered.");
+			//CSTELogger.logDebug(messagesGathered + " messages gathered.");
 			if (messagesGathered >= messagesNeeded) {
 				if (error) {
 					ChatMessenger.addMessage(getError(), EnumChatFormatting.RED);
@@ -101,6 +104,7 @@ public class ChatRecievedHandler {
 		messagesNeeded = 0;
 		building = false;
 		error = false;
+		cmdsWasted = 0;
 		errors.clear();
 	}
 	
@@ -125,10 +129,12 @@ public class ChatRecievedHandler {
 		String str;
 		if (blocksChanged > 0) {
 			CSTELogger.logDebug(blocksChanged + " blocks were changed.");
+			CSTELogger.logDebug(cmdsWasted + " commands wasted.");
 			str = I18n.format("cste.commands.fill.success", blocksChanged);
 		}
 		else {
 			CSTELogger.logDebug("No blocks changed");
+			CSTELogger.logDebug(cmdsWasted + " commands wasted.");
 			str = I18n.format("cste.commands.fill.nochange");
 		}
 		return str;

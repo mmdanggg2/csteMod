@@ -20,17 +20,20 @@ public class CSTEHistory {
 		}
 		ArrayList<BlockDelta> currHistory = history.get(history.size()-1);
 		currHistory.add(bd);
-		CSTELogger.logDebug("New BlockDelta: " + currHistory.size() + ", history: " + history.size());
+		//CSTELogger.logDebug("New BlockDelta: " + currHistory.size() + ", history: " + history.size());
 	}
 
 	public void nextLevel() {
+		CSTELogger.logDebug("Hisory level " + history.size() + " has " + history.get(history.size()-1).size() + " bd's");
 		history.add(new ArrayList<BlockDelta>());
 		CSTELogger.logDebug("New history level: " + history.size());
 	}
 	
 	public ArrayList<BlockDelta> getHistory() {
+		CSTELogger.logDebug("Removing history level " + history.size());
 		ArrayList<BlockDelta> currHistory = history.remove(history.size()-1);
 		while (currHistory.size() == 0 && history.size() > 0) {
+			CSTELogger.logDebug("History level " + (history.size()+1) + " was empty, removing");
 			currHistory = history.remove(history.size()-1);
 		}
 		if (history.size() == 0) {

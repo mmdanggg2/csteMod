@@ -18,8 +18,11 @@ public class WorldEditor {
 		if (256 > pos.getY() && pos.getY() >= 0) {
 			BlockDelta bd = new BlockDelta(pos, block, meta);
 			if (bd.isChangedFromCurrent()) {
-				CSTE.history.addDelta(bd);
-				commands.add("/setblock " + CSTESelectionProcessor.posToStr(pos) + " " + bd.getNewBlockStr());
+				String command = "/setblock " + CSTESelectionProcessor.posToStr(pos) + " " + bd.getNewBlockStr();
+				if (!commands.contains(command)) {
+					CSTE.history.addDelta(bd);
+					commands.add(command);
+				}
 			}
 		}
 	}
@@ -46,6 +49,9 @@ public class WorldEditor {
 			}
 			commands.clear();
 			CSTE.history.nextLevel();
+		}
+		else {
+			ChatMessenger.addMessageLocalized("cste.commands.fill.nochange");
 		}
 	}
 }

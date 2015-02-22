@@ -148,12 +148,12 @@ public class CSTESelectionProcessor {
 		else if (StringUtils.isNumeric(arg)) {
 			int posNum = Integer.parseInt(arg) - 1;
 			if (posNum == 0) {
-				sel.setPos1(Minecraft.getMinecraft().thePlayer.getPosition());
+				sel.setPos1(new BlockPos(Minecraft.getMinecraft().thePlayer.posX, Minecraft.getMinecraft().thePlayer.posY, Minecraft.getMinecraft().thePlayer.posZ));
 				ChatMessenger.addMessageLocalized("cste.commands.pos.posset", arg, posToStr(sel.getPos1()));
 				return 0;
 			}
 			else if (posNum == 1) {
-				sel.setPos2(Minecraft.getMinecraft().thePlayer.getPosition());
+				sel.setPos2(new BlockPos(Minecraft.getMinecraft().thePlayer.posX, Minecraft.getMinecraft().thePlayer.posY, Minecraft.getMinecraft().thePlayer.posZ));
 				ChatMessenger.addMessageLocalized("cste.commands.pos.posset", arg, posToStr(sel.getPos2()));
 				return 0;
 			}
