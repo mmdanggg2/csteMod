@@ -1,6 +1,6 @@
 package mmdanggg2.cste.commands;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import mmdanggg2.cste.CSTE;
@@ -30,8 +30,8 @@ public class CommandUndo extends CommandBase {
 	@Override
 	public void execute(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Undo Command Recieved!");
-		ArrayList<BlockDelta> history = CSTE.history.getHistory();
-		ArrayList<String> commands = new ArrayList<String>();
+		HashSet<BlockDelta> history = CSTE.history.getHistory();
+		HashSet<String> commands = new HashSet<String>();
 		for (BlockDelta bd : history) {
 			if (bd.isChanged() || bd.isChangedFromCurrent()) {
 				String command = "/setblock " + CSTESelectionProcessor.posToStr(bd.getPos()) + " " + bd.getOldBlockStr();

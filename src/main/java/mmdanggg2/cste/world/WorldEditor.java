@@ -1,6 +1,6 @@
 package mmdanggg2.cste.world;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
@@ -12,17 +12,14 @@ import mmdanggg2.cste.util.BlockDelta;
 import mmdanggg2.cste.util.ChatMessenger;
 
 public class WorldEditor {
-	private static ArrayList<String> commands = new ArrayList<String>();
+	private static HashSet<String> commands = new HashSet<String>();
 	
 	public static void setBlock(BlockPos pos, Block block, int meta) {
 		if (256 > pos.getY() && pos.getY() >= 0) {
 			BlockDelta bd = new BlockDelta(pos, block, meta);
 			if (bd.isChangedFromCurrent()) {
-				String command = "/setblock " + CSTESelectionProcessor.posToStr(pos) + " " + bd.getNewBlockStr();
-				if (!commands.contains(command)) {
-					CSTE.history.addDelta(bd);
-					commands.add(command);
-				}
+				CSTE.history.addDelta(bd);
+				commands.add("/setblock " + CSTESelectionProcessor.posToStr(pos) + " " + bd.getNewBlockStr());
 			}
 		}
 	}
