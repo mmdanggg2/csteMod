@@ -21,7 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 public class CommandReplace extends CommandBase {
 
 	@Override
-	public String getName() {
+	public String getCommandName() {
 		return "cste-replace";
 	}
 
@@ -31,7 +31,7 @@ public class CommandReplace extends CommandBase {
 	}
 
 	@Override
-	public void execute(ICommandSender sender, String[] args) throws CommandException {
+	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Replace Command Recieved!");
 		if (ChatRecievedHandler.instance.isBuilding()) {
 			throw new CommandException("cste.commands.error.stillbuilding");
@@ -86,10 +86,10 @@ public class CommandReplace extends CommandBase {
 		return 0;
 	}
 
-    public List<?> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1 || args.length == 2) {
-        	return func_175762_a(args, Block.blockRegistry.getKeys());
+        	return getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys());
         }
         else {
         	return null;

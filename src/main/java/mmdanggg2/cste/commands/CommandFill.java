@@ -18,7 +18,7 @@ import net.minecraft.util.BlockPos;
 public class CommandFill extends CommandBase {
 
 	@Override
-	public String getName() {
+	public String getCommandName() {
 		return "cste-fill";
 	}
 
@@ -28,7 +28,7 @@ public class CommandFill extends CommandBase {
 	}
 
 	@Override
-	public void execute(ICommandSender sender, String[] args) throws CommandException {
+	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Fill Command Recieved!");
 		if (ChatRecievedHandler.instance.isBuilding()) {
 			throw new CommandException("cste.commands.error.stillbuilding");
@@ -64,10 +64,10 @@ public class CommandFill extends CommandBase {
 		return 0;
 	}
 
-    public List<?> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1) {
-        	return func_175762_a(args, Block.blockRegistry.getKeys());
+        	return getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys());
         }
         else {
         	return null;

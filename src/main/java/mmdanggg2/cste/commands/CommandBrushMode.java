@@ -13,7 +13,7 @@ import net.minecraft.util.BlockPos;
 public class CommandBrushMode extends CommandBase {
 
 	@Override
-	public String getName() {
+	public String getCommandName() {
 		return "cste-brushmode";
 	}
 
@@ -23,7 +23,7 @@ public class CommandBrushMode extends CommandBase {
 	}
 
 	@Override
-	public void execute(ICommandSender sender, String[] args) throws CommandException {
+	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Brush mode Command Recieved!");
 		CSTE.brushProcessor.onModeCommand(args);
 	}
@@ -33,7 +33,7 @@ public class CommandBrushMode extends CommandBase {
 		return 0;
 	}
 	
-	public List<?> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         if(args.length == 1) {
         	return getListOfStringsMatchingLastWord(args, new String[] {"fill", "hollow", "smooth"});

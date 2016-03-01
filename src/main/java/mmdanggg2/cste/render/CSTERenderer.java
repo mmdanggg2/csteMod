@@ -46,7 +46,11 @@ public class CSTERenderer {
         GlStateManager.disableTexture2D();
         if (CSTEInfo.xrayMode) {GlStateManager.disableDepth();}
         
-		RenderGlobal.drawOutlinedBoundingBox(rendBBox.offset(0.5, 0.5, 0.5).expand(0.5, 0.5, 0.5), Integer.parseInt(CSTEInfo.selColour, 16));
+        int colour = Integer.parseInt(CSTEInfo.selColour, 16);
+        int red = (colour>>16)&0x0ff;
+        int green=(colour>>8) &0x0ff;
+        int blue= (colour)    &0x0ff;
+		RenderGlobal.drawOutlinedBoundingBox(rendBBox.offset(0.5, 0.5, 0.5).expand(0.5, 0.5, 0.5), red, green, blue, 255);
 		
 		GlStateManager.enableTexture2D();
 		if (CSTEInfo.xrayMode) {GlStateManager.enableDepth();}

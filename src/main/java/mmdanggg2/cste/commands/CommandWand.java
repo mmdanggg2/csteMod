@@ -17,7 +17,7 @@ import net.minecraft.util.EnumChatFormatting;
 public class CommandWand extends CommandBase {
 
 	@Override
-	public String getName() {
+	public String getCommandName() {
 		return "cste-wand";
 	}
 
@@ -27,7 +27,7 @@ public class CommandWand extends CommandBase {
 	}
 
 	@Override
-	public void execute(ICommandSender sender, String[] args) throws CommandException {
+	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Wand Command Recieved!");
 		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
@@ -54,7 +54,7 @@ public class CommandWand extends CommandBase {
 		return 0;
 	}
 	
-	public List<?> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         if(args.length == 1) {
         	return getListOfStringsMatchingLastWord(args, new String[] {"clear"});
@@ -63,5 +63,4 @@ public class CommandWand extends CommandBase {
         	return null;
         }
     }
-
 }

@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 public class CommandPos extends CommandBase {
 
 	@Override
-	public String getName() {
+	public String getCommandName() {
 		return "cste-pos";
 	}
 
@@ -26,7 +26,7 @@ public class CommandPos extends CommandBase {
 	}
 
 	@Override
-	public void execute(ICommandSender sender, String[] args) throws CommandException {
+	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Pos Command Recieved!");
 		if (!(args.length < 1)) {
 			int result = 0;
@@ -70,7 +70,7 @@ public class CommandPos extends CommandBase {
 		return 0;
 	}
 	
-	public List<?> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		if (args.length > 1 && args.length <= 4) {
 			return func_175771_a(args, 0, pos);
 		}

@@ -18,7 +18,7 @@ import net.minecraft.util.BlockPos;
 public class CommandUndo extends CommandBase {
 
 	@Override
-	public String getName() {
+	public String getCommandName() {
 		return "cste-undo";
 	}
 
@@ -28,7 +28,7 @@ public class CommandUndo extends CommandBase {
 	}
 
 	@Override
-	public void execute(ICommandSender sender, String[] args) throws CommandException {
+	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Undo Command Recieved!");
 		if (ChatRecievedHandler.instance.isBuilding()) {
 			throw new CommandException("cste.commands.error.stillbuilding");
@@ -54,7 +54,7 @@ public class CommandUndo extends CommandBase {
 		return 0;
 	}
 	
-	public List<?> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         return null;
     }

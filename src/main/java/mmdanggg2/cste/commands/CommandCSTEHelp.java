@@ -10,7 +10,7 @@ import net.minecraft.command.ICommandSender;
 public class CommandCSTEHelp extends CommandBase {
 
 	@Override
-	public String getName() {
+	public String getCommandName() {
 		return "cste-help";
 	}
 
@@ -20,7 +20,7 @@ public class CommandCSTEHelp extends CommandBase {
 	}
 
 	@Override
-	public void execute(ICommandSender sender, String[] args) throws CommandException {
+	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Help Command Recieved!");
 		ChatMessenger.addMessageLocalized("cste.commands.fill.help");
 		ChatMessenger.addMessageLocalized("cste.commands.replace.help");
