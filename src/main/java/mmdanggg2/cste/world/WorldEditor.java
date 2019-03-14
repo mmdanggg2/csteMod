@@ -3,7 +3,7 @@ package mmdanggg2.cste.world;
 import java.util.HashSet;
 
 import net.minecraft.block.Block;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import mmdanggg2.cste.CSTE;
 import mmdanggg2.cste.CSTESelectionProcessor;
 import mmdanggg2.cste.events.ChatRecievedHandler;

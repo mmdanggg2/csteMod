@@ -3,7 +3,7 @@ package mmdanggg2.cste.util;
 import mmdanggg2.cste.world.WorldReader;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.ResourceLocation;
 
 public class BlockDelta {
@@ -49,12 +49,12 @@ public class BlockDelta {
 	}
 	
 	public String getNewBlockStr() {
-		ResourceLocation rl = (ResourceLocation) Block.blockRegistry.getNameForObject(newBlock);
+		ResourceLocation rl = (ResourceLocation) Block.REGISTRY.getNameForObject(newBlock);
 		return rl.toString() + " " + newMeta;
 	}
 	
 	public String getOldBlockStr() {
-		ResourceLocation rl = (ResourceLocation) Block.blockRegistry.getNameForObject(oldBlock);
+		ResourceLocation rl = (ResourceLocation) Block.REGISTRY.getNameForObject(oldBlock);
 		return rl.toString() + " " + oldMeta;
 	}
 	

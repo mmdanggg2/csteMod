@@ -11,23 +11,24 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 
 public class CommandWand extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "cste-wand";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return I18n.format("cste.commands.wand");
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Wand Command Recieved!");
 		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
@@ -36,15 +37,15 @@ public class CommandWand extends CommandBase {
 				CSTE.selProcessor.wand = null;
 				ChatMessenger.addMessageLocalized("cste.commands.wand.clear");
 			}
-			else if (player.getHeldItem() != null) {
-				Item item = player.getHeldItem().getItem();
+			else if (!player.getHeldItemMainhand().isEmpty()) {
+				Item item = player.getHeldItemMainhand().getItem();
 				CSTELogger.logDebug("Setting Wand: " + item.getUnlocalizedName());
 				CSTE.selProcessor.wand = item;
 				ChatMessenger.addMessageLocalized("cste.commands.wand.sel", I18n.format(item.getUnlocalizedName() + ".name"));
 			}
 			else {
 				CSTELogger.logDebug("Wand unchanged, hand was empty");
-				ChatMessenger.addMessageLocalized("cste.commands.wand.noitem", EnumChatFormatting.RED);
+				ChatMessenger.addMessageLocalized("cste.commands.wand.noitem", TextFormatting.RED);
 			}
 		}
 	}

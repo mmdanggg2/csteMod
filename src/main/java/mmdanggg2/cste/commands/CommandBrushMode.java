@@ -8,22 +8,23 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.BlockPos;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 
 public class CommandBrushMode extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "cste-brushmode";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return I18n.format("cste.commands.brushmode");
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Brush mode Command Recieved!");
 		CSTE.brushProcessor.onModeCommand(args);
 	}

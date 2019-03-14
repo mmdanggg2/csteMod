@@ -9,22 +9,23 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.util.BlockPos;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 
 public class CommandMode extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "cste-fillmode";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return I18n.format("cste.commands.fillmode");
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Mode Command Recieved!");
 		if (!(args.length < 1)) {
 			CSTE.selProcessor.onModeCommand(args);

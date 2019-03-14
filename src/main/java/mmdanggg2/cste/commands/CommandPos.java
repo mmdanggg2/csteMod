@@ -9,24 +9,25 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.util.BlockPos;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 
 import org.apache.commons.lang3.StringUtils;
 
 public class CommandPos extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "cste-pos";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return I18n.format("cste.commands.pos");
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Pos Command Recieved!");
 		if (!(args.length < 1)) {
 			int result = 0;
@@ -72,7 +73,7 @@ public class CommandPos extends CommandBase {
 	
 	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		if (args.length > 1 && args.length <= 4) {
-			return func_175771_a(args, 0, pos);
+			return getTabCompletionCoordinate(args, 0, pos);
 		}
 		else {
 			return null;

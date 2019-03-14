@@ -26,7 +26,7 @@ import mmdanggg2.cste.util.BlockDelta;
 import mmdanggg2.cste.world.WorldReader;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**

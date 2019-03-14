@@ -8,8 +8,7 @@ import mmdanggg2.cste.util.CSTELogger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
@@ -38,9 +37,9 @@ public class KeyEventHandler {
 	public void onKeyEvent(KeyInputEvent event) {
 		if (keys[USE_BRUSH].isPressed()) {
 			CSTELogger.logDebug("BRUSH KEY EVENT!!!!");
-			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-			MovingObjectPosition pos = player.rayTrace(100, 0);
-			if (pos.typeOfHit.equals(MovingObjectType.BLOCK)) {
+			EntityPlayerSP player = Minecraft.getMinecraft().player;
+			RayTraceResult pos = player.rayTrace(100, 0);
+			if (pos.typeOfHit.equals(RayTraceResult.Type.BLOCK)) {
 				CSTELogger.logDebug("Hit Block: " + CSTESelectionProcessor.posToStr(pos.getBlockPos()));
 				CSTE.brushProcessor.onBrushActivated(pos.getBlockPos());
 			}
@@ -48,8 +47,8 @@ public class KeyEventHandler {
 		if (keys[USE_WAND].isPressed()) {
 			CSTELogger.logDebug("WAND KEY EVENT!!!!");
 			Minecraft mc = Minecraft.getMinecraft();
-			MovingObjectPosition pos = mc.thePlayer.rayTrace(100, 0);
-			if (pos.typeOfHit.equals(MovingObjectType.BLOCK)) {
+			RayTraceResult pos = mc.player.rayTrace(100, 0);
+			if (pos.typeOfHit.equals(RayTraceResult.Type.BLOCK)) {
 				CSTELogger.logDebug("Hit Block: " + CSTESelectionProcessor.posToStr(pos.getBlockPos()));
 				CSTE.selProcessor.onBlockActivated(pos.getBlockPos());
 			}

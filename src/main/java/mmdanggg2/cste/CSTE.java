@@ -66,8 +66,8 @@ public class CSTE {
 		proxy.registerRenderers();
 		proxy.registerCommands();
 		
-		FMLCommonHandler.instance().bus().register(instance);
-		FMLCommonHandler.instance().bus().register(new KeyEventHandler());
+		MinecraftForge.EVENT_BUS.register(instance);
+		MinecraftForge.EVENT_BUS.register(new KeyEventHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHandler());
 		MinecraftForge.EVENT_BUS.register(new ChatRecievedHandler());
 		MinecraftForge.EVENT_BUS.register(new MouseEventHandler());
@@ -102,7 +102,7 @@ public class CSTE {
 
 	@SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-        if(eventArgs.modID.equals(CSTEInfo.ID))
+        if(eventArgs.getModID().equals(CSTEInfo.ID))
         	CSTELogger.logInfo("Reloading Config");
             updateConfig();
     }

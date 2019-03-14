@@ -6,21 +6,22 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.server.MinecraftServer;
 
 public class CommandCSTEHelp extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "cste-help";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return I18n.format("cste.commands.help");
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Help Command Recieved!");
 		ChatMessenger.addMessageLocalized("cste.commands.fill.help");
 		ChatMessenger.addMessageLocalized("cste.commands.replace.help");

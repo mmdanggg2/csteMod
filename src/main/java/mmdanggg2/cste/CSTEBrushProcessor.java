@@ -22,23 +22,23 @@ import net.minecraft.command.NumberInvalidException;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 
 public class CSTEBrushProcessor {
 	public Item brush = null;
 	private int radius = 5;
-	private Block brushBlock = Blocks.stone;
+	private Block brushBlock = Blocks.STONE;
 	private int brushMeta = 0;
 	private BrushMode brushMode = BrushMode.FILL;
 
 	public void onBrushActivated(BlockPos pos) {
 		if (ChatRecievedHandler.instance.isBuilding()) {
-			ChatMessenger.addMessageLocalized("cste.commands.error.stillbuilding", EnumChatFormatting.RED);
+			ChatMessenger.addMessageLocalized("cste.commands.error.stillbuilding", TextFormatting.RED);
 			return;
 		}
 		if (radius < 1) {
-			ChatMessenger.addMessageLocalized("cste.commands.brush.smallrad", EnumChatFormatting.RED);
+			ChatMessenger.addMessageLocalized("cste.commands.brush.smallrad", TextFormatting.RED);
 		}
 		else if (brushMode.equals(BrushMode.SMOOTH)) {
 			CSTELogger.logDebug("Brush smooth");
@@ -46,7 +46,7 @@ public class CSTEBrushProcessor {
 		}
 		else {
 			if (brushBlock == null) {
-				ChatMessenger.addMessageLocalized("cste.commands.brush.noblock", EnumChatFormatting.RED);
+				ChatMessenger.addMessageLocalized("cste.commands.brush.noblock", TextFormatting.RED);
 			}
 			else {
 				if (brushMode.equals(BrushMode.FILL)) {
@@ -85,7 +85,7 @@ public class CSTEBrushProcessor {
 				}
 				if (!modeFound) {
 					CSTELogger.logDebug("No match found!");
-					ChatMessenger.addMessageLocalized("cste.commands.brushmode.badmode", EnumChatFormatting.RED);
+					ChatMessenger.addMessageLocalized("cste.commands.brushmode.badmode", TextFormatting.RED);
 					return;
 				}
 			}
@@ -93,25 +93,25 @@ public class CSTEBrushProcessor {
 				if (StringUtils.isNumeric(args[1])) {
 					int rad = Integer.parseInt(args[1]);
 					if (rad <= 0) {
-						ChatMessenger.addMessageLocalized("cste.commands.brushmode.badrad", EnumChatFormatting.RED);
+						ChatMessenger.addMessageLocalized("cste.commands.brushmode.badrad", TextFormatting.RED);
 						return;
 					}
 					else if (rad > 100) {
-						ChatMessenger.addMessageLocalized("cste.commands.brushmode.radtoolarge", EnumChatFormatting.RED, Minecraft.getMinecraft().thePlayer.getName());
+						ChatMessenger.addMessageLocalized("cste.commands.brushmode.radtoolarge", TextFormatting.RED, Minecraft.getMinecraft().player.getName());
 						return;
 					}
 					else {
 						if (rad > 40) {
-							ChatMessenger.addMessageLocalized("cste.commands.brushmode.vlargerad", EnumChatFormatting.RED);
+							ChatMessenger.addMessageLocalized("cste.commands.brushmode.vlargerad", TextFormatting.RED);
 						}
 						else if (rad > 20) {
-							ChatMessenger.addMessageLocalized("cste.commands.brushmode.largerad", EnumChatFormatting.RED);
+							ChatMessenger.addMessageLocalized("cste.commands.brushmode.largerad", TextFormatting.RED);
 						}
 						radius = rad;
 					}
 				}
 				else {
-					ChatMessenger.addMessageLocalized("cste.commands.brushmode.badrad", EnumChatFormatting.RED);
+					ChatMessenger.addMessageLocalized("cste.commands.brushmode.badrad", TextFormatting.RED);
 					return;
 				}
 			}
@@ -120,7 +120,7 @@ public class CSTEBrushProcessor {
 				try {
 					block = CommandBase.getBlockByText(null, args[2]);
 				} catch (NumberInvalidException e) {
-					ChatMessenger.addMessageLocalized(e.getMessage(), EnumChatFormatting.RED);
+					ChatMessenger.addMessageLocalized(e.getMessage(), TextFormatting.RED);
 					return;
 				}
 				Integer meta = null;

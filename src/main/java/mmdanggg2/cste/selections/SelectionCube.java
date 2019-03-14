@@ -1,6 +1,6 @@
 package mmdanggg2.cste.selections;
 
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 public class SelectionCube {
 	

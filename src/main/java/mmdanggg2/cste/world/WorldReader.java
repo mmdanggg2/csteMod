@@ -3,15 +3,15 @@ package mmdanggg2.cste.world;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 public class WorldReader {
 	public static Block getBlock(BlockPos pos) {
-		return Minecraft.getMinecraft().theWorld.getBlockState(pos).getBlock();
+		return Minecraft.getMinecraft().world.getBlockState(pos).getBlock();
 	}
 	
 	public static IBlockState getBlockState(BlockPos pos) {
-		return Minecraft.getMinecraft().theWorld.getBlockState(pos);
+		return Minecraft.getMinecraft().world.getBlockState(pos);
 	}
 
 	/**
@@ -29,7 +29,7 @@ public class WorldReader {
 		for (int y = maxY; y >= minY; --y) {
 			BlockPos pos = new BlockPos(x, y, z);
 			Block block = getBlock(pos);
-			if (!block.isReplaceable(Minecraft.getMinecraft().theWorld, pos)) {
+			if (!block.isReplaceable(Minecraft.getMinecraft().world, pos)) {
 				return y;
 			}
 		}

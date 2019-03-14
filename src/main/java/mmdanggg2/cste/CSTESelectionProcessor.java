@@ -9,7 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -148,12 +148,12 @@ public class CSTESelectionProcessor {
 		else if (StringUtils.isNumeric(arg)) {
 			int posNum = Integer.parseInt(arg) - 1;
 			if (posNum == 0) {
-				sel.setPos1(new BlockPos(Minecraft.getMinecraft().thePlayer.posX, Minecraft.getMinecraft().thePlayer.posY, Minecraft.getMinecraft().thePlayer.posZ));
+				sel.setPos1(new BlockPos(Minecraft.getMinecraft().player.posX, Minecraft.getMinecraft().player.posY, Minecraft.getMinecraft().player.posZ));
 				ChatMessenger.addMessageLocalized("cste.commands.pos.posset", arg, posToStr(sel.getPos1()));
 				return 0;
 			}
 			else if (posNum == 1) {
-				sel.setPos2(new BlockPos(Minecraft.getMinecraft().thePlayer.posX, Minecraft.getMinecraft().thePlayer.posY, Minecraft.getMinecraft().thePlayer.posZ));
+				sel.setPos2(new BlockPos(Minecraft.getMinecraft().player.posX, Minecraft.getMinecraft().player.posY, Minecraft.getMinecraft().player.posZ));
 				ChatMessenger.addMessageLocalized("cste.commands.pos.posset", arg, posToStr(sel.getPos2()));
 				return 0;
 			}

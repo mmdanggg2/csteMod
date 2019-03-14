@@ -5,8 +5,7 @@ import mmdanggg2.cste.CSTESelectionProcessor;
 import mmdanggg2.cste.util.CSTELogger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -14,14 +13,14 @@ public class MouseEventHandler {
 
 	@SubscribeEvent
 	public void handleEvent(MouseEvent event) {
-		if (event.button == 1 && event.buttonstate) {
+		if (event.getButton() == 1 && event.isButtonstate()) {
 			CSTELogger.logDebug("MOUSE EVENT!!!");
-			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-			if (CSTE.brushProcessor.brush != null && player.getHeldItem() != null) {
-				if (player.getCurrentEquippedItem().getItem() == CSTE.brushProcessor.brush) {
+			EntityPlayerSP player = Minecraft.getMinecraft().player;
+			if (CSTE.brushProcessor.brush != null && player.getHeldItemMainhand() != null) {
+				if (player.getHeldItemMainhand().getItem() == CSTE.brushProcessor.brush) {
 					event.setCanceled(true);
-					MovingObjectPosition pos = player.rayTrace(100, 0);
-					if (pos.typeOfHit.equals(MovingObjectType.BLOCK)) {
+					RayTraceResult pos = player.rayTrace(100, 0);
+					if (pos.typeOfHit.equals(RayTraceResult.Type.BLOCK)) {
 						CSTELogger.logDebug("Hit Block: " + CSTESelectionProcessor.posToStr(pos.getBlockPos()));
 						CSTE.brushProcessor.onBrushActivated(pos.getBlockPos());
 					}

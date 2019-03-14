@@ -11,23 +11,24 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 
 public class CommandBrush extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "cste-brush";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return I18n.format("cste.commands.brush");
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Brush Command Recieved!");
 		if (sender instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) sender;
@@ -36,15 +37,15 @@ public class CommandBrush extends CommandBase {
 				CSTE.brushProcessor.brush = null;
 				ChatMessenger.addMessageLocalized("cste.commands.brush.clear");
 			}
-			else if (player.getHeldItem() != null) {
-				Item item = player.getHeldItem().getItem();
+			else if (player.getHeldItemMainhand() != null) {//TODO support offhand?
+				Item item = player.getHeldItemMainhand().getItem();
 				CSTELogger.logDebug("Setting Brush: " + item.getUnlocalizedName());
 				CSTE.brushProcessor.brush = item;
 				ChatMessenger.addMessageLocalized("cste.commands.brush.sel", I18n.format(item.getUnlocalizedName() + ".name"));
 			}
 			else {
 				CSTELogger.logDebug("Brush unchanged, hand was empty");
-				ChatMessenger.addMessageLocalized("cste.commands.brush.noitem", EnumChatFormatting.RED);
+				ChatMessenger.addMessageLocalized("cste.commands.brush.noitem", TextFormatting.RED);
 			}
 		}
 	}

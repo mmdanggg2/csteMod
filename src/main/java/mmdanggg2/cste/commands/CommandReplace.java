@@ -13,25 +13,26 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 
 import org.apache.commons.lang3.StringUtils;
 
 public class CommandReplace extends CommandBase {
 
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "cste-replace";
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return I18n.format("cste.commands.replace");
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		CSTELogger.logDebug("Replace Command Recieved!");
 		if (ChatRecievedHandler.instance.isBuilding()) {
 			throw new CommandException("cste.commands.error.stillbuilding");
@@ -55,7 +56,7 @@ public class CommandReplace extends CommandBase {
 			try {
 				newBlock = CommandBase.getBlockByText(null, args[1]);
 			} catch (NumberInvalidException e) {
-				ChatMessenger.addMessageLocalized(e.getMessage(), EnumChatFormatting.RED, args[1]);
+				ChatMessenger.addMessageLocalized(e.getMessage(), TextFormatting.RED, args[1]);
 				return;
 			}
 			Integer newMeta = null;
@@ -89,7 +90,7 @@ public class CommandReplace extends CommandBase {
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1 || args.length == 2) {
-        	return getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys());
+        	return getListOfStringsMatchingLastWord(args, Block.REGISTRY.getKeys());
         }
         else {
         	return null;

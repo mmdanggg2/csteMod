@@ -6,7 +6,8 @@ import java.util.Map;
 import mmdanggg2.cste.util.CSTELogger;
 import mmdanggg2.cste.util.ChatMessenger;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -31,45 +32,45 @@ public class ChatRecievedHandler {
 	@SubscribeEvent
 	public void handleEvent(ClientChatReceivedEvent event) {
 		//TODO put in all failure chat events
-		if (event.type == 1 && building) {
+		if (event.getType() == ChatType.SYSTEM && building) {
 			//CSTELogger.logDebug("System message recieved: " + event.message.getUnformattedText());
-			if (event.message.getUnformattedText().equals(I18n.format("commands.fill.outOfWorld"))) {
-				error(ErrorType.OUTOFWORLD, event.message.getUnformattedText());
+			if (event.getMessage().getUnformattedText().equals(I18n.format("commands.fill.outOfWorld"))) {
+				error(ErrorType.OUTOFWORLD, event.getMessage().getUnformattedText());
 				messagesGathered++;
 				event.setCanceled(true);
 			}
-			else if (event.message.getUnformattedText().contains(I18n.format("commands.fill.tagError", ""))) {
-				error(ErrorType.TAGERROR, event.message.getUnformattedText());
+			else if (event.getMessage().getUnformattedText().contains(I18n.format("commands.fill.tagError", ""))) {
+				error(ErrorType.TAGERROR, event.getMessage().getUnformattedText());
 				messagesGathered++;
 				event.setCanceled(true);
 			}
-			else if (event.message.getUnformattedText().contains(I18n.format("commands.give.notFound", ""))) {
-				error(ErrorType.BLOCKNOTFOUND, event.message.getUnformattedText());
+			else if (event.getMessage().getUnformattedText().contains(I18n.format("commands.give.notFound", ""))) {
+				error(ErrorType.BLOCKNOTFOUND, event.getMessage().getUnformattedText());
 				messagesGathered++;
 				event.setCanceled(true);
 			}
-			else if (event.message.getUnformattedText().contains(I18n.format("commands.fill.tooManyBlocks", "SPLIT", "").split("SPLIT")[0])) {
-				error(ErrorType.TOOMANYBLOCKS, event.message.getUnformattedText());
+			else if (event.getMessage().getUnformattedText().contains(I18n.format("commands.fill.tooManyBlocks", "SPLIT", "").split("SPLIT")[0])) {
+				error(ErrorType.TOOMANYBLOCKS, event.getMessage().getUnformattedText());
 				messagesGathered++;
 				event.setCanceled(true);
 			}
-			else if (event.message.getUnformattedText().contains(I18n.format("commands.fill.failed"))) {
+			else if (event.getMessage().getUnformattedText().contains(I18n.format("commands.fill.failed"))) {
 				messagesGathered++;
 				event.setCanceled(true);
 			}
-			else if (event.message.getUnformattedText().contains(I18n.format("commands.setblock.noChange"))) {
+			else if (event.getMessage().getUnformattedText().contains(I18n.format("commands.setblock.noChange"))) {
 				messagesGathered++;
 				cmdsWasted++;
 				event.setCanceled(true);
 			}
-			else if (event.message.getUnformattedText().contains(I18n.format("commands.setblock.success"))) {
+			else if (event.getMessage().getUnformattedText().contains(I18n.format("commands.setblock.success"))) {
 				blocksChanged++;
 				//CSTELogger.logDebug("1 block changed, total: " + blocksChanged);
 				messagesGathered++;
 				event.setCanceled(true);
 			}
-			else if (event.message.getUnformattedText().contains(I18n.format("commands.fill.success", ""))) {
-				String changedStr = event.message.getUnformattedText().replace(I18n.format("commands.fill.success", ""), "");
+			else if (event.getMessage().getUnformattedText().contains(I18n.format("commands.fill.success", ""))) {
+				String changedStr = event.getMessage().getUnformattedText().replace(I18n.format("commands.fill.success", ""), "");
 				if (StringUtils.isNumeric(changedStr)) {
 					int changed = Integer.parseInt(changedStr);
 					blocksChanged += changed;
@@ -81,7 +82,7 @@ public class ChatRecievedHandler {
 			//CSTELogger.logDebug(messagesGathered + " messages gathered.");
 			if (messagesGathered >= messagesNeeded) {
 				if (error) {
-					ChatMessenger.addMessage(getError(), EnumChatFormatting.RED);
+					ChatMessenger.addMessage(getError(), TextFormatting.RED);
 				}
 				ChatMessenger.addMessage(getChanged());
 				clearAll();
